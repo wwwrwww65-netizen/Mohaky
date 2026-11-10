@@ -8,15 +8,16 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-// Port 3000 is required for AI Studio dev server. Avoid process.env.PORT which may be 8080 in container runtime
 const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve any static files/directories placed in root (css, js, img, assets, fonts, etc.)
-app.use(express.static(__dirname));
+// Serve static assets directly (css, js, images, zip, etc.)
+app.use('/css', express.static(path.join(__dirname, 'css')));
+app.use('/js', express.static(path.join(__dirname, 'js')));
+app.use('/img', express.static(path.join(__dirname, 'img')));
 
 // Session simulation state for the MikroTik Hotspot
 interface SessionState {
@@ -45,10 +46,10 @@ let sessionState: SessionState = {
   mac: '44:65:7F:8A:2B:11',
 };
 
-// Variable to store card string for auto-login when applying services
+// Variable to store card string for auto-login when applying services from status.html
 let pendingAutoLogin: string | null = null;
 
-// Periodic simulated byte counter increment when logged in
+// Periodic simulated byte counter increment
 setInterval(() => {
   if (sessionState.isLoggedIn) {
     sessionState.bytesIn += Math.floor(Math.random() * 50000) + 10000;
@@ -78,26 +79,7 @@ function getUptimeString(startTime: number): string {
   return `${seconds}s`;
 }
 
-// Parse incoming HTTP Cookies
-function parseCookies(header: string | undefined): Record<string, string> {
-  const list: Record<string, string> = {};
-  if (!header) return list;
-  header.split(';').forEach(cookie => {
-    const [name, ...rest] = cookie.split('=');
-    const trimmed = name?.trim();
-    if (trimmed) {
-      const rawVal = rest.join('=').trim();
-      try {
-        list[trimmed] = decodeURIComponent(rawVal);
-      } catch (e) {
-        list[trimmed] = rawVal;
-      }
-    }
-  });
-  return list;
-}
-
-// Function to render MikroTik template with variables dynamically
+// Function to render MikroTik template with variables dynamically without touching files on disk
 function renderMikrotikTemplate(filePath: string, req: express.Request): string {
   let content = fs.readFileSync(filePath, 'utf-8');
 
@@ -128,7 +110,7 @@ function renderMikrotikTemplate(filePath: string, req: express.Request): string 
   content = content.replace(/\$\(else\)/gi, '');
   content = content.replace(/\$\(endif\)/gi, '');
 
-  // Replace MikroTik standard variables
+  // Replace MikroTik variables
   const replacements: Record<string, string> = {
     'http://a.com': '/status',
     'a.com': 'status',
@@ -142,12 +124,15 @@ function renderMikrotikTemplate(filePath: string, req: express.Request): string 
     '$(link-orig-esc)': '/status',
     '$(link-redirect)': '/status',
     '$(link-redirect-esc)': '/status',
-    '$(username)': sessionState.username,
+    '$(username)': (filePath.endsWith('login.html') || filePath.endsWith('index.html'))
+      ? (sessionState.isLoggedIn ? sessionState.username : '')
+      : sessionState.username,
     '$(uptime)': uptime,
     '$(bytes-in-nice)': bytesInNice,
     '$(bytes-out-nice)': bytesOutNice,
     '$(bytes-in)': String(sessionState.bytesIn),
     '$(bytes-out)': String(sessionState.bytesOut),
+    '$(limit-bytes-total)': String(sessionState.bytesIn + sessionState.bytesOut + sessionState.remainBytes),
     '$(remain-bytes-total-nice)': remainBytesNice,
     '$(remain-bytes-total)': String(sessionState.remainBytes),
     '$(session-time-left)': '4h 15m',
@@ -155,6 +140,7 @@ function renderMikrotikTemplate(filePath: string, req: express.Request): string 
     '$(mac)': sessionState.mac,
     '$(domain)': sessionState.domain,
     '$(error)': errorMsg,
+    '$(hostname)': 'a.net',
   };
 
   for (const [key, val] of Object.entries(replacements)) {
@@ -164,342 +150,46 @@ function renderMikrotikTemplate(filePath: string, req: express.Request): string 
   // Clean any remaining unparsed MikroTik $(...) variable tags safely without touching JavaScript code
   content = content.replace(/\$\([a-zA-Z0-9_-]+\)/g, '');
 
+  // In-memory fallback if HTML uses onclick="return rem();" without modifying any files on disk
+  if (content.includes('rem()')) {
+    const remScript = '<script>if(typeof window.rem!=="function"){window.rem=function(){if(typeof saveVoucher==="function")saveVoucher();if(typeof saveSpeed==="function")saveSpeed();return true;};}</script>';
+    if (content.includes('</head>')) {
+      content = content.replace('</head>', remScript + '</head>');
+    } else if (content.includes('</body>')) {
+      content = content.replace('</body>', remScript + '</body>');
+    } else {
+      content = remScript + content;
+    }
+  }
+
   return content;
 }
 
-// Fallback HTML Dashboard when user hasn't yet provided login.html
-function getSimulatorDashboardHtml(req: express.Request): string {
-  const errorParam = (req.query.error as string) || '';
-  const currentStatus = sessionState.isLoggedIn ? 'متصل (Logged In)' : 'غير متصل (Disconnected)';
-  const statusBadgeColor = sessionState.isLoggedIn ? '#10b981' : '#f59e0b';
-
-  return `<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>محاكي شبكات ميكروتك - MikroTik Hotspot Simulator</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      background: #0f172a;
-      color: #f1f5f9;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 24px 16px;
+function parseCookies(header: string | undefined): Record<string, string> {
+  const list: Record<string, string> = {};
+  if (!header) return list;
+  header.split(';').forEach(cookie => {
+    let [name, ...rest] = cookie.split('=');
+    name = name?.trim();
+    if (name) {
+      const rawVal = rest.join('=').trim();
+      try {
+        list[name] = decodeURIComponent(rawVal);
+      } catch (e) {
+        list[name] = rawVal;
+      }
     }
-    .container {
-      width: 100%;
-      max-width: 820px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    .header-card {
-      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-      border: 1px solid #334155;
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .badge {
-      align-self: flex-start;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 12px;
-      border-radius: 9999px;
-      font-size: 13px;
-      font-weight: 600;
-      background: rgba(16, 185, 129, 0.15);
-      color: #10b981;
-      border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-    .badge-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #10b981;
-      animation: pulse 1.8s infinite;
-    }
-    @keyframes pulse {
-      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-      70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
-      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-    }
-    h1 { font-size: 24px; font-weight: 700; color: #f8fafc; }
-    p.lead { color: #94a3b8; font-size: 15px; line-height: 1.6; }
-    
-    .card {
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 14px;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-    .card-title {
-      font-size: 17px;
-      font-weight: 600;
-      color: #38bdf8;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 12px;
-    }
-    .stat-item {
-      background: #0f172a;
-      border: 1px solid #334155;
-      border-radius: 10px;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .stat-label { font-size: 12px; color: #94a3b8; }
-    .stat-val { font-size: 15px; font-weight: 600; color: #f1f5f9; direction: ltr; text-align: right; }
-    
-    .test-form {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-    }
-    .input-text {
-      flex: 1;
-      min-width: 180px;
-      background: #0f172a;
-      border: 1px solid #475569;
-      color: #fff;
-      padding: 10px 14px;
-      border-radius: 8px;
-      font-size: 14px;
-      outline: none;
-    }
-    .input-text:focus { border-color: #38bdf8; }
-    .btn {
-      padding: 10px 18px;
-      border-radius: 8px;
-      border: none;
-      font-weight: 600;
-      font-size: 14px;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: all 0.2s;
-    }
-    .btn-primary { background: #38bdf8; color: #0f172a; }
-    .btn-primary:hover { background: #0284c7; color: #fff; }
-    .btn-danger { background: #ef4444; color: #fff; }
-    .btn-danger:hover { background: #dc2626; }
-    .btn-secondary { background: #334155; color: #f8fafc; }
-    .btn-secondary:hover { background: #475569; }
-
-    .files-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 10px;
-    }
-    .file-badge {
-      background: #0f172a;
-      border: 1px dashed #475569;
-      border-radius: 8px;
-      padding: 10px;
-      font-size: 13px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: #cbd5e1;
-    }
-    .file-badge code { color: #38bdf8; font-weight: 600; font-family: monospace; }
-    
-    .chips-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 6px;
-    }
-    .chip {
-      background: #0f172a;
-      border: 1px solid #334155;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 12px;
-      color: #94a3b8;
-      text-decoration: none;
-      cursor: pointer;
-    }
-    .chip:hover { border-color: #38bdf8; color: #38bdf8; }
-    
-    .alert-error {
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      color: #fca5a5;
-      padding: 12px 16px;
-      border-radius: 10px;
-      font-size: 14px;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="header-card">
-      <div class="badge">
-        <span class="badge-dot"></span>
-        سيرفر المحاكي قيد التشغيل (Port 3000)
-      </div>
-      <h1>محاكي بوابات ميكروتك هوتسبوت (MikroTik Hotspot Simulator)</h1>
-      <p class="lead">
-        تم إفراغ ملفات المشروع السابق بنجاح، والسيرفر يعمل الآن كمحاكي مستقل بالكامل وجاهز لاستقبال ملفات مشروعك الجديد. بمجرد إضافة ملفات الهوتسبوت الجديدة (مثل <code>login.html</code> أو <code>status.html</code> أو مجلدات التنسيقات)، سيتم عرضها وتشغيلها ومحاكاتها تلقائياً وبشكل فوري!
-      </p>
-    </div>
-
-    ${errorParam ? `
-    <div class="alert-error">
-      ⚠️ رسالة خطأ الميكروتك المحاكية: <strong>${errorParam}</strong>
-    </div>` : ''}
-
-    <div class="card">
-      <div class="card-title">
-        <span>⚡ حالة جلسة الميكروتك المحاكية الحالية</span>
-        <span style="font-size: 12px; color: ${statusBadgeColor}; margin-right: auto;">${currentStatus}</span>
-      </div>
-      <div class="stats-grid">
-        <div class="stat-item">
-          <span class="stat-label">المستخدم ($(username))</span>
-          <span class="stat-val">${sessionState.username}</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-label">عنوان الأي بي ($(ip))</span>
-          <span class="stat-val">${sessionState.ip}</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-label">عنوان الماك ($(mac))</span>
-          <span class="stat-val">${sessionState.mac}</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-label">وقت الاتصال ($(uptime))</span>
-          <span class="stat-val">${getUptimeString(sessionState.startTime)}</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-label">التنزيل ($(bytes-out-nice))</span>
-          <span class="stat-val">${formatBytes(sessionState.bytesOut)}</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-label">الرصيد المتبقي</span>
-          <span class="stat-val">${formatBytes(sessionState.remainBytes)}</span>
-        </div>
-      </div>
-
-      <div style="margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap;">
-        ${sessionState.isLoggedIn ? `
-          <a href="/logout" class="btn btn-danger">تسجيل خروج ($(link-logout))</a>
-        ` : `
-          <form action="/login" method="POST" class="test-form" style="width: 100%;">
-            <input type="text" name="username" class="input-text" placeholder="أدخل رقم الكرت (مثال: 777723089)" value="777723089" required />
-            <input type="hidden" name="speed" value="512K/1M" />
-            <button type="submit" class="btn btn-primary">تجربة تسجيل الدخول ($(link-login))</button>
-          </form>
-        `}
-      </div>
-
-      <div style="margin-top: 10px;">
-        <span style="font-size: 13px; color: #94a3b8;">كروت تجريبية لمحاكاة أخطاء الميكروتك:</span>
-        <div class="chips-container">
-          <a href="/login?username=999" class="chip">كرت 999 (مستخدم بجهاز آخر)</a>
-          <a href="/login?username=888" class="chip">كرت 888 (انتهاء الوقت/الرصيد)</a>
-          <a href="/login?username=777" class="chip">كرت 777 (انتهاء صلاحية البروفايل)</a>
-          <a href="/login?username=000" class="chip">كرت 000 (مستخدم غير موجود)</a>
-          <a href="/login?username=111" class="chip">كرت 111 (مقيد بجهاز آخر)</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">📁 الملفات المتوافقة مع المحاكي عند إضافتها:</div>
-      <div class="files-list">
-        <div class="file-badge">📄 <code>login.html</code> صفحة الدخول الأساسية</div>
-        <div class="file-badge">📊 <code>status.html</code> صفحة بيانات الجلسة</div>
-        <div class="file-badge">🚪 <code>logout.html</code> صفحة تسجيل الخروج</div>
-        <div class="file-badge">🔀 <code>alogin.html</code> صفحة التحويل بعد الدخول</div>
-        <div class="file-badge">📢 <code>radvert.html</code> صفحة الإعلانات</div>
-        <div class="file-badge">📡 <code>rlogin.html</code> بروتوكول WISPr</div>
-        <div class="file-badge">🎨 مجلدات <code>css/</code> و <code>js/</code> و <code>img/</code></div>
-      </div>
-    </div>
-  </div>
-</body>
-</html>`;
+  });
+  return list;
 }
 
-// Fallback HTML Status page when user hasn't yet provided status.html
-function getSimulatorStatusHtml(): string {
-  const uptime = getUptimeString(sessionState.startTime);
-  const bytesInNice = formatBytes(sessionState.bytesIn);
-  const bytesOutNice = formatBytes(sessionState.bytesOut);
-  const remainBytesNice = formatBytes(sessionState.remainBytes);
-
-  return `<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>حالة الاتصال - MikroTik Hotspot</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: system-ui, sans-serif; background: #0f172a; color: #f1f5f9; padding: 24px 16px; display: flex; justify-content: center; }
-    .box { width: 100%; max-width: 600px; background: #1e293b; border: 1px solid #334155; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 16px; }
-    h2 { font-size: 20px; color: #38bdf8; }
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    td { padding: 10px; border-bottom: 1px solid #334155; font-size: 14px; }
-    td:last-child { direction: ltr; text-align: right; font-weight: 600; color: #38bdf8; }
-    .btn { padding: 10px 20px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; text-decoration: none; text-align: center; }
-    .btn-danger { background: #ef4444; color: #fff; }
-    .btn-back { background: #334155; color: #f8fafc; }
-  </style>
-</head>
-<body>
-  <div class="box">
-    <h2>معلومات اتصال الهوتسبوت (Status)</h2>
-    <table>
-      <tr><td>اسم المستخدم ($(username))</td><td>${sessionState.username}</td></tr>
-      <tr><td>عنوان الأي بي ($(ip))</td><td>${sessionState.ip}</td></tr>
-      <tr><td>عنوان الماك ($(mac))</td><td>${sessionState.mac}</td></tr>
-      <tr><td>وقت الاتصال ($(uptime))</td><td>${uptime}</td></tr>
-      <tr><td>استهلاك التنزيل ($(bytes-out-nice))</td><td>${bytesOutNice}</td></tr>
-      <tr><td>استهلاك الرفع ($(bytes-in-nice))</td><td>${bytesInNice}</td></tr>
-      <tr><td>الرصيد المتبقي ($(remain-bytes-total-nice))</td><td>${remainBytesNice}</td></tr>
-    </table>
-    <div style="display: flex; gap: 10px; margin-top: 10px;">
-      <a href="/logout" class="btn btn-danger" style="flex: 1;">تسجيل خروج</a>
-      <a href="/login" class="btn btn-back" style="flex: 1;">العودة للرئيسية</a>
-    </div>
-  </div>
-</body>
-</html>`;
-}
-
-// Authentication processor for GET & POST logins
+// /login routes (GET and POST)
 function handleAuth(rawUser: string, rawSpeed: string, req: express.Request, res: express.Response) {
   let user = (rawUser || '777723089').trim();
   let domain = '512K/1M|0|pm|all|*no**|non***';
   let speed = rawSpeed || '512K/1M';
 
-  // Decode URI components if encoded
+  // Decode URI components if encoded (e.g. from hotCookie or query string)
   try {
     user = decodeURIComponent(user);
   } catch (e) {}
@@ -552,7 +242,7 @@ function handleAuth(rawUser: string, rawSpeed: string, req: express.Request, res
   res.cookie('hotspot_is_logged_in', '1', { path: '/' });
   res.cookie('uname', encodeURIComponent(user + (domain ? '@' + domain : '')), { path: '/', maxAge: 259200000 });
 
-  // Serve intermediary page alogin.html if present
+  // Serve intermediary page alogin.html as per README.md lifecycle map
   const aloginPath = path.join(__dirname, 'alogin.html');
   if (fs.existsSync(aloginPath)) {
     const rendered = renderMikrotikTemplate(aloginPath, req);
@@ -578,7 +268,7 @@ app.get(['/login', '/login.html'], (req, res) => {
     });
   }
 
-  // Support direct GET login as used by MikroTik and hotCookie (login?username=...&password=...)
+  // Support direct GET login as used by hotCookie.min.js (login?username=...&password=...)
   if (req.query.username) {
     return handleAuth(req.query.username as string, (req.query.speed as string) || '', req, res);
   }
@@ -588,7 +278,7 @@ app.get(['/login', '/login.html'], (req, res) => {
     return handleAuth(pendingAutoLogin, '', req, res);
   }
 
-  // If no error parameter, check if browser has a valid stored card in cookies
+  // If no error parameter, check if browser has a valid stored card in cookies from rem()
   const cookies = parseCookies(req.headers.cookie);
   const cookieUname = cookies['uname'] || cookies['uname_raw'];
   const hasError = req.query.error;
@@ -602,9 +292,7 @@ app.get(['/login', '/login.html'], (req, res) => {
     const rendered = renderMikrotikTemplate(loginFile, req);
     return res.setHeader('Content-Type', 'text/html; charset=UTF-8').send(rendered);
   }
-  
-  // Return the Simulator Dashboard if login.html is not yet created
-  return res.setHeader('Content-Type', 'text/html; charset=UTF-8').send(getSimulatorDashboardHtml(req));
+  return res.status(404).send('login.html not found');
 });
 
 app.post(['/login', '/login.html'], (req, res) => {
@@ -637,11 +325,10 @@ app.get(['/status', '/status.html'], (req, res) => {
     const rendered = renderMikrotikTemplate(statusFile, req);
     return res.setHeader('Content-Type', 'text/html; charset=UTF-8').send(rendered);
   }
-  
-  return res.setHeader('Content-Type', 'text/html; charset=UTF-8').send(getSimulatorStatusHtml());
+  return res.status(404).send('status.html not found');
 });
 
-// /logout routes
+// /logout routes with intermediary logout.html page as per README.md
 app.all(['/logout', '/logout.html'], (req, res) => {
   const isApplying = req.query.apply_services === '1' || req.body?.apply_services === '1';
   let targetUname = (req.query.uname as string) || (req.body?.uname as string) || '';
@@ -680,7 +367,7 @@ app.all(['/logout', '/logout.html'], (req, res) => {
   return res.redirect('/login');
 });
 
-// /alogin and /rlogin routes
+// /alogin and /rlogin routes with intermediary alogin.html as per README.md
 app.all(['/alogin', '/alogin.html'], (req, res) => {
   const aloginPath = path.join(__dirname, 'alogin.html');
   if (fs.existsSync(aloginPath)) {
@@ -701,59 +388,37 @@ app.get(['/rlogin', '/rlogin.html'], (req, res) => {
 // Root URL handler
 app.get(['/', '/index.html'], (req, res) => {
   if (sessionState.isLoggedIn) {
-    const statusFile = path.join(__dirname, 'status.html');
-    if (fs.existsSync(statusFile)) {
-      return res.redirect('/status');
-    }
+    return res.redirect('/status');
   }
-  const loginFile = path.join(__dirname, 'login.html');
-  if (fs.existsSync(loginFile)) {
-    const rendered = renderMikrotikTemplate(loginFile, req);
+  const targetFile = (req.path === '/index.html' && fs.existsSync(path.join(__dirname, 'index.html')))
+    ? path.join(__dirname, 'index.html')
+    : (fs.existsSync(path.join(__dirname, 'login.html')) ? path.join(__dirname, 'login.html') : path.join(__dirname, 'index.html'));
+  if (fs.existsSync(targetFile)) {
+    const rendered = renderMikrotikTemplate(targetFile, req);
     return res.setHeader('Content-Type', 'text/html; charset=UTF-8').send(rendered);
   }
-  return res.setHeader('Content-Type', 'text/html; charset=UTF-8').send(getSimulatorDashboardHtml(req));
+  return res.status(404).send('Portal not found');
 });
 
-// Simulator API endpoints for tests or inspection
-app.get('/api/session', (req, res) => {
-  res.json({
-    sessionState,
-    uptime: getUptimeString(sessionState.startTime),
-    bytesInNice: formatBytes(sessionState.bytesIn),
-    bytesOutNice: formatBytes(sessionState.bytesOut),
-    remainBytesNice: formatBytes(sessionState.remainBytes),
-  });
-});
-
-app.post('/api/session/reset', (req, res) => {
-  sessionState.isLoggedIn = false;
-  sessionState.username = '777723089';
-  sessionState.bytesIn = 1000000;
-  sessionState.bytesOut = 5000000;
-  sessionState.remainBytes = 2147483648;
-  sessionState.startTime = Date.now();
-  pendingAutoLogin = null;
-  res.clearCookie('hotspot_is_logged_in', { path: '/' });
-  res.clearCookie('uname', { path: '/' });
-  res.json({ success: true, message: 'Session reset successfully' });
-});
+// Serve any other static files/directories placed in root (css, js, img, assets, fonts, etc.) after template routes
+app.use(express.static(__dirname, { index: false }));
 
 const server = app.listen(PORT, '0.0.0.0', () => {
-  console.log(`[MikroTik Hotspot Simulator] Running on http://0.0.0.0:${PORT}`);
+  console.log(`[Hotspot Server] Running on http://0.0.0.0:${PORT}`);
 });
 
 server.on('error', (err: any) => {
   if (err.code === 'EADDRINUSE') {
-    console.error(`[MikroTik Hotspot Simulator] Port ${PORT} already in use. Please check running processes.`);
+    console.error(`[Hotspot Server] Port ${PORT} already in use.`);
   } else {
-    console.error('[MikroTik Hotspot Simulator] Server error:', err);
+    console.error('[Hotspot Server] Server error:', err);
   }
 });
 
 process.on('uncaughtException', (err) => {
-  console.error('[MikroTik Hotspot Simulator] Uncaught Exception:', err);
+  console.error('[Hotspot Server] Uncaught Exception:', err);
 });
 
 process.on('unhandledRejection', (reason, promise) => {
-  console.error('[MikroTik Hotspot Simulator] Unhandled Rejection at:', promise, 'reason:', reason);
+  console.error('[Hotspot Server] Unhandled Rejection at:', promise, 'reason:', reason);
 });

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title id="title">شبكة الاديب نت</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="theme-color" content="#3B5998" />
+    <link rel="stylesheet" href="style.css"> <style> 
+.main2 {
+  display: grid;
+place-items: center;
+
+  position: relative;
+
+ 
+}
+
+.main1 {
+.btn:hover {
+            transform: translateY(-3px);
+        }
+
+   
+        .btn-red { background: linear-gradient(to right, rgb(7, 55, 110) 0px, rgb(255 0 0) 56%, rgb(0, 0, 0) 100%);
+ }
+        .btn-blue { background: linear-gradient(to right, #0451aa 0, #023184 56%, #00579e 100%);
+ }
+        .btn-green { background:linear-gradient(to right, #c7b59b 0, #d46a00 56%, #8a4d05 100%); }
+        .btn-yellow {background: linear-gradient(to right, rgb(10, 64, 125) 0px, rgb(188 15 127) 56%, rgb(0, 0, 0) 100%);}
+ .btn-1 { background:linear-gradient(to right, rgb(10, 64, 125) 0px, rgb(0 0 0) 56%, rgb(0, 0, 0) 100%); }
+        .btn-2 {background: linear-gradient(to right, rgb(107 82 139) 0px, rgb(147 155 197) 56%, rgb(128 134 158) 100%);}
+
+  color: #f2f2f2;*/
+    display: grid;
+place-items: center;
+
+  position: relative;
+
+
+  height: 100%;
+   padding: 10px;
+
+  margin-left:auto;
+  margin-right:auto;
+    text-align:center;
+  min-height:300px;
+  
+}
+
+
+
+</style>
+
+</head>
+
+<body onLoad="loadVoucherDropdown();">
+        $(if chap-id)
+        <form name="sendin" action="$(link-login-only)" method="post">
+            <input type="hidden" name="username" />
+            <input type="hidden" name="password" />
+            <input type="hidden" name="dst" value="$(link-orig)" />
+            <input type="hidden" name="popup" value="true" />
+		    <input type="hidden" name="speed" value="false" />
+        </form>
+        <script type="text/javascript" src="md5.js"></script>
+<script>
+(function() {
+    var storageKey = "mk_last_username";
+
+    // 1. وظيفة الحقن المستمر (تمنع أي سكربت آخر من مسح الحقل)
+    var injectInterval = setInterval(function() {
+        var usernameInput = document.querySelector('input[name="uname"]');
+        if (usernameInput) {
+            var savedValue = localStorage.getItem(storageKey);
+            // إذا وجدنا رقماً محفوظاً وكان الحقل فارغاً، نكتبه فوراً
+            if (savedValue && usernameInput.value !== savedValue && usernameInput.value === "") {
+                usernameInput.value = savedValue;
+            }
+        }
+    }, 100); // يفحص ويحقن كل 0.1 ثانية
+
+    // إيقاف الفحص بعد 5 ثوانٍ لتوفير بطارية الهاتف بعد استقرار الصفحة
+    setTimeout(function() { clearInterval(injectInterval); }, 5000);
+
+    // 2. مراقبة حركة المستخدم لحفظ الرقم بدقة عالية
+    document.addEventListener("DOMContentLoaded", function() {
+        var usernameInput = document.querySelector('input[name="uname"]');
+        var loginForm = document.querySelector('form');
+
+        if (usernameInput) {
+            // الحفظ أثناء الكتابة كخط دفاع أول
+            usernameInput.addEventListener("input", function() {
+                if (usernameInput.value.trim() !== "") {
+                    localStorage.setItem(storageKey, usernameInput.value);
+                }
+            });
+
+            // الحفظ عند الضغط على زر الدخول كخط دفاع ثانٍ
+            if (loginForm) {
+                loginForm.addEventListener("submit", function() {
+                    if (usernameInput.value.trim() !== "") {
+                        localStorage.setItem(storageKey, usernameInput.value);
+                    }
+                });
+            }
+        }
+    });
+})();
+</script>
+
+
+
+        $(endif)
+ 
+
+            <div id="main" class="main1">
+           <div id="main" class="main1">
+ <div class="buttons-container">
+        <button class="btn btn-red" onclick="changeColor('linear-gradient(to right, rgb(7, 55, 110) 0px, rgb(255 0 0) 56%, rgb(0, 0, 0) 100%)')">..</button>
+        <button class="btn btn-blue" onclick="changeColor('linear-gradient(to right, #0451aa 0, #023184 56%, #00579e 100%)')">..</button>
+        <button class="btn btn-green" onclick="changeColor('linear-gradient(to right, #c7b59b 0, #d46a00 56%, #8a4d05 100%)')">..</button>
+<button class="btn btn-1" onclick="changeColor('linear-gradient(to right, rgb(10, 64, 125) 0px, rgb(0 0 0) 56%, rgb(0, 0, 0) 100%)')">🌙</button>
+<button class="btn btn-2" onclick="changeColor('linear-gradient(to right, rgb(107 82 139) 0px, rgb(147 155 197) 56%, rgb(128 134 158) 100%)')">..</button>
+        <button class="btn btn-yellow" onclick="changeColor('linear-gradient(to right, rgb(10, 64, 125) 0px, rgb(188 15 127) 56%, rgb(0, 0, 0) 100%)')">..</button>
+    </div><br>
+
+         <div class="banner"> 
+        <center>  <div class="slider"  style="--quantity: 2; direction: rtl; unicode-bidi: embed;"> <img src="wi.gif" width="70%"> 
+       
+            <div class="item" style="--position: 1;"><img src="ff.png" alt="Image 2"><br>اختر سرعتك المناسبة</div>
+            <div class="item" style="--position: 2;">حماية عالية<img src="ss.png"></div>
+           
+       </div> </center>  
+    </div><br>
+            <div class="alll1">
+                <h3 class="text-3d"><B>شبكة الاديب نت</B></h3>
+            </div><br>
+            <div class="alll">
+            <form name="login" action="$(link-login-only)" method="post" $(if chap-id) onSubmit="return saveVoucher()" $(endif)>
+                <input type="hidden" name="dst" value="$(link-orig)" />
+                <input type="hidden" name="popup" value="true" />
+								  <select  id="speed" name="speed" >
+<option value="" selected>اختيار سرعة </option>
+
+<option value="bb1bb2bb3bb4bb5-bb">
+   سرعة عالية</option>
+    
+<option value="ss1ss2ss3ss5ss7-ss">
+   
+ سرعة متوسطة
+   </option>
+              <option value="c1c2c3c4c5c6-pp">
+                 سرعة اقتصادية
+              </option></select>
+
+                <input class="username" id='uname' name="username" type="number" value="$(username)" autocomplete="off" lang="en" output="english" placeholder="رمز الدخول" /><br>
+<select id="voucherDropdown" onChange="selectVoucher(this)">
+    <option value="">آخر ارقام كروت</option>
+</select><br>
+			<input checked id='remember'type='checkbox' name='remember'><font size="3"> <B>      حفظ الكرت     </B>  </font>
+
+ <input class="password" name="password" placeholder="Password" id='passw' type="hidden"  /><br>
+   
+
+
+
+                <button class="button" onclick='return rem();'  type="submit">دخول</button>
+
+            </form>
+</div>
+           
+
+            $(if error)<div class="notice"><script type="text/javascript">
+<!--
+var error = "$(error)";
+if (error == "simultaneous session limit reached") {
+document.write("الكرت مستخدم في جهـاز آخر ");
+}
+else if (error == "invalid password") {
+document.write("كلمـة المرور غير صحيحـه");
+}
+else if (error == "no valid profile found") {
+document.write("انتهت صلاحية الرصيد");
+}
+else if(error.search("not found") != -1) {
+document.write(" المستخدم غير موجود");	
+}
+else if(error.search("no more sessions are allowed for user") != -1) {
+document.write("الكرت مستخدم في جهـاز آخر");	
+}
+else if (error == "uptime limit reached") {
+document.write("انتهى رصيـد هذا الكرت");
+}
+else if (error == "invalid Calling-Station-Id") {
+document.write("لا يمكنك استخدام هذا الرقم , لأنه تم تخصيصة لجهـاز آخر");
+}
+else if (error == "web browser did not send challenge response (try again, enable JavaScript)") {
+document.write("أعد المحاولة مرة أخرى , اذا ضهرت هذه الرسـاله مجدداً فيجب تفعيل الجافا سكربت في متصفحك");
+}
+else if (error == "download limit reached") {
+document.write("انتهى رصيـد هذا الكرت");
+}
+else if (error == "transfer limit reached") {
+document.write("لقد استغرغت كامل رصيد الانترنت الخاص بهذا الكرت");
+}
+else if(error.search("uptime limit reached") != -1) {
+document.write("انتهى رصيـد هذا الكرت");	
+}
+else document.write("$(error) ");
+
+ //-->
+					</script></div>$(endif)
+<marquee direction=right style="TAHOMA:150%; font-size:12pt; background-color: #000000; color:white;"f;">ومن يتق الله يجعل له مخرجا ويرزقه من حيث لايحتسب</marquee>
+
+        
+<p class="alll2">a.net - رابط الصفحة </p> <!--
+<button class="accordion"><b>الباقات</b></button>
+<div class="panel">
+ <table class="table">
+                    <caption style="font-size: 16px; font-weight: bold;">اسعار الكروت</caption>
+                    <tr>
+                        <th>السعر</th>
+                        <th>الوقت</th>
+                        <th>الرصيد</th>
+                    </tr>
+                    <tr>
+                        <td>100</td>
+                        <td> 24 ساعة</td>
+                        <td>300 ميجا</td>
+                    </tr>
+                    <tr>
+                        <td>250</td>
+                        <td>50 ساعة</td>
+                        <td>تحميل 750 +400 رفع</td>
+                    </tr>
+                    
+                   
+                </table>
+</div>
+-->
+<button class="accordion">نقاط البيع</button>
+<div class="panel">
+   <p><b>جميع البقالات المجاورة للشبكة</b> 
+                  <br>
+                  
+                  #. نصائح مهمه لحل مشكلة انتهاء رصيد الكروت 
+                  
+                 
+                  <br>
+                 <p>1. <b> ايقاف تحديثات الجوال التلقائية</b>
+                 	<br>
+					<br>
+                 <p>2. <b> ايقاف تحديثات التطبيقات من سوق بلاي</b>
+                 	<br>
+						<br>
+                 <p>3. <b> مشاهدة فيديو اليوتيوب بجودة لاتزيد عن 360 </b>
+                 	<br>
+                 	 
+                   </p>
+</div>
+
+
+
+
+
+                <br />
+                               <div>
+للتواصل 
+<br>
+                 781172077-780001507
+                </div>
+                 <br />
+                <div class="box" style="color:#fff;">
+            <i>شبكة الاديب نت</i><br />
+            <i>تصميم فريق انجاز واي فاي</i>
+            <!-- Tolong jangan dihilangkan bagian ini-->
+        </div>
+        </div>
+       
+        
+
+
+<script type="text/javascript">
+var hostname = window.location.hostname;
+document.getElementById('title').innerHTML = hostname  + " > login";
+
+document.login.username.focus();
+
+var infologin = document.getElementById('infologin');
+infologin.innerHTML = "Masukkan Kode Voucher kemudian klik login";
+
+// login page 2 mode by Laksamadi Guko
+var username = document.login.username;
+var password = document.login.password;
+
+username.placeholder = "Kode Voucher";
+
+// set password = username
+function setpass() {
+    var user = username.value
+    //user = user.toLowerCase();
+    username.value = user;
+    password.value = user;
+}
+
+username.onkeyup = setpass;
+
+// change to voucher mode
+function voucher() {
+    username.focus();
+    username.onkeyup = setpass;
+    username.placeholder = "Kode Voucher";
+    username.style = "border-radius:3px;"
+    password.type = "hidden";
+    infologin.innerHTML = "Masukkan Kode Voucher kemudian klik login.";
+}
+
+// change to member mode
+function member() {
+    username.focus();
+    username.onkeyup = "";
+    username.placeholder = "username";
+    username.style = "border-radius:3px 3px 0px 0px;"
+    password.type = "password";
+    infologin.innerHTML = "Masukkan username dan Password kemudian klik login.";
+}
+</script>
+  <div class="progress-container">
+    <div class="progress-bar" id="progressbar"></div>
+  </div>
+
+<script>
+//<![CDATA[
+window.addEventListener("scroll", myFunction);
+
+function myFunction() {
+  var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  var scrolled = (winScroll / height) * 100;
+  document.getElementById("progressbar").style.width = scrolled + "%";
+}
+//]]>
+</script>
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight){
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    } 
+  });
+}
+</script>
+<script>
+
+// 1. دالة لحفظ الكارت فور الضغط على زر تسجيل الدخول
+function saveVoucher() {
+    if (!document.forms['login'] || !document.forms['login']['uname']) return;
+    var uname = document.forms['login']['uname'].value.trim();
+    if (uname) {
+        var vouchers = JSON.parse(localStorage.getItem('savedVouchers')) || [];
+        
+        // إزالة الكارت إذا كان موجوداً مسبقاً لتفادي التكرار
+        vouchers = vouchers.filter(function(item) {
+            return (typeof item === 'object' ? item.code : item) !== uname;
+        });
+        
+        // حفظ الكارت مؤقتاً بدون رسالة إضافية
+        vouchers.unshift({ code: uname, status: '' });
+        
+        if (vouchers.length > 5) vouchers.pop();
+        
+        localStorage.setItem('savedVouchers', JSON.stringify(vouchers));
+        // تخزين الكارت الحالي لمعرفة من الذي فشل عند إعادة تحميل الصفحة
+        localStorage.setItem('lastAttemptedVoucher', uname);
+        
+        // [تعديل] تخزين آخر كارت مكتوب بشكل عام للكتابة التلقائية لاحقاً
+        localStorage.setItem('strict_last_uname', uname);
+    }
+}
+
+// 2. دالة ذكية تقرأ نص الخطأ الظاهر على الشاشة من ملف error.txt
+function checkLoginError() {
+    var errorMsg = "";
+    
+    // البحث في الصفحة عن أي عنصر يظهر فيه نص الخطأ للمستخدم
+    try {
+        if (typeof error !== 'undefined' && error) {
+            errorMsg = error.toString();
+        } else {
+            errorMsg = "$(error)".trim();
+        }
+    } catch(e) { errorMsg = ""; }
+
+    if (!errorMsg || errorMsg === "$(error)" || errorMsg === "") {
+        var errorElement = document.getElementById('error') || 
+                           document.querySelector('.error') || 
+                           document.querySelector('[style*="color: red"]') ||
+                           document.querySelector('[style*="color:#f00"]');
+        if (errorElement) {
+            errorMsg = errorElement.innerText || errorElement.textContent;
+        }
+    }
+    
+    errorMsg = errorMsg ? errorMsg.trim().toLowerCase() : "";
+    var lastVoucher = localStorage.getItem('lastAttemptedVoucher');
+    
+    if (errorMsg && errorMsg !== "" && errorMsg !== "$(error)" && lastVoucher) {
+        var vouchers = JSON.parse(localStorage.getItem('savedVouchers')) || [];
+        
+        vouchers = vouchers.map(function(item) {
+            var itemCode = typeof item === 'object' ? item.code : item;
+            if (itemCode === lastVoucher) {
+                if (errorMsg.includes("منتهي") || 
+                    errorMsg.includes("انتهى") || 
+                    errorMsg.includes("صلاحية") || 
+                    errorMsg.includes("الوقت") || 
+                    errorMsg.includes("نفذ") || 
+                    errorMsg.includes("التحميل") || 
+                    errorMsg.includes("رصيد") || 
+                    errorMsg.includes("expired") || 
+                    errorMsg.includes("limit")) {
+                    return { code: itemCode, status: "❌ منتهي" };
+                } else {
+                    return { code: itemCode, status: "❌ خطأ" };
+                }
+            }
+            return typeof item === 'object' ? item : { code: item, status: "" };
+        });
+        
+        localStorage.setItem('savedVouchers', JSON.stringify(vouchers));
+        localStorage.removeItem('lastAttemptedVoucher'); 
+    } else {
+        localStorage.removeItem('lastAttemptedVoucher');
+    }
+}
+
+// 3. دالة لتوليد القائمة المنسدلة وعرض الحالات المقروءة
+function loadVoucherDropdown() {
+    checkLoginError(); // تحديث الحالات بناءً على النص الظاهر على الشاشة
+    
+    var vouchers = JSON.parse(localStorage.getItem('savedVouchers')) || [];
+    var dropdown = document.getElementById('voucherDropdown');
+    
+    if (dropdown) {
+        dropdown.innerHTML = '<option value="">كروت سابقة</option>';
+        vouchers.forEach(function(item) {
+            var code = typeof item === 'object' ? item.code : item;
+            var status = typeof item === 'object' ? item.status : '';
+            
+            if (code) {
+                var option = document.createElement('option');
+                option.value = code;
+                if (status && status !== '') {
+                    option.text = code + " (" + status + ")";
+                } else {
+                    option.text = code;
+                }
+                dropdown.appendChild(option);
+            }
+        });
+    }
+
+    // [إضافة جديدة] حقن آخر كارت تم كتابته تلقائياً في الحقل عند فتح الصفحة
+    autoFillLastVoucher();
+}
+
+// [إضافة جديدة] دالة التعبئة التلقائية الإجبارية لمنع التعارض
+function autoFillLastVoucher() {
+    setTimeout(function() {
+        if (document.forms['login'] && document.forms['login']['uname']) {
+            var inputField = document.forms['login']['uname'];
+            var lastWritten = localStorage.getItem('strict_last_uname');
+            
+            // نعبئ الحقل فقط إذا كان فارغاً وتوفر رقم محفوظ
+            if (lastWritten && inputField.value === "") {
+                inputField.value = lastWritten;
+            }
+        }
+    }, 300); // تأخير بسيط لضمان استقرار حقول المتصفح
+}
+
+// 4. تعبئة الحقل عند اختيار كارت من المنسدلة
+function selectVoucher(dropdown) {
+    var selectedVal = dropdown.value;
+    if (selectedVal && document.forms['login'] && document.forms['login']['uname']) {
+        document.forms['login']['uname'].value = selectedVal;
+    }
+}
+
+// تشغيل جلب البيانات والقائمة المنسدلة فور جاهزية الصفحة
+document.addEventListener("DOMContentLoaded", loadVoucherDropdown);
+
+
+
+ function convertToArabic2(enNumbers) {
+var x=enNumbers.value.replace("٠","0").replace("١","1").replace("٢","2").replace("٣","3").replace("٤","4").replace("٥","5").replace("٦","6").replace("٧","7").replace("٨","8").replace("٩","9").replace(" ","").replace("٠","0").replace("١","1").replace("٢","2").replace("٣","3").replace("٤","4").replace("٥","5").replace("٦","6").replace("٧","7").replace("٨","8").replace("٩","9").replace(" ","").replace("٠","0").replace("١","1").replace("٢","2").replace("٣","3").replace("٤","4").replace("٥","5").replace("٦","6").replace("٧","7").replace("٨","8").replace("٩","9").replace(" ","").replace("٠","0").replace("١","1").replace("٢","2").replace("٣","3").replace("٤","4").replace("٥","5").replace("٦","6").replace("٧","7").replace("٨","8").replace("٩","9").replace(" ","").replace("٠","0").replace("١","1").replace("٢","2").replace("٣","3").replace("٤","4").replace("٥","5").replace("٦","6").replace("٧","7").replace("٨","8").replace("٩","9").replace(" ","").toLowerCase();
+enNumbers.value=x;
+        }
+</script>
+
+    <script>
+        // دالة تغيير اللون
+        function changeColor(color) {
+            document.body.style.background = color;
+        }
+    </script>
+
+
+</body>
+
+</html>
