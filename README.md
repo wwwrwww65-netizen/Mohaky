@@ -1,11 +1,43 @@
-<div align="center">
+# 🚀 محاكي بوابات ميكروتك هوتسبوت (MikroTik Hotspot Simulator)
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+خادم محاكاة متكامل ومستقل لخوادم وبوابات هوتسبوت ميكروتك (MikroTik RouterOS Hotspot)، مصمم لتشغيل واختبار قوالب الهوتسبوت محلياً مع محاكاة كاملة للمتغيرات، الجلسات، والكروت التجريبية.
 
-  <h1>Built with AI Studio</h2>
+---
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+## ⚡ كيف يعمل المحاكي؟
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+1. **اكتشاف الملفات تلقائياً**:
+   بمجرد وضع ملفات الهوتسبوت الخاصة بمشروعك الجديد في المجلد الرئيسي:
+   - `login.html`: صفحة تسجيل الدخول وبوابة الشبكة الرئيسية.
+   - `status.html`: صفحة معلومات الجلسة، السرعة، والرصيد.
+   - `logout.html`: صفحة تسجيل الخروج وإنهاء الاتصال.
+   - `alogin.html`: صفحة التحويل بعد تسجيل الدخول.
+   - `radvert.html`: صفحة الإعلانات المجدولة.
+   - `redirect.html`: صفحة إعادة التوجيه الفوري.
+   - `rlogin.html`: استجابة بروتوكول WISPr للأجهزة الذكية.
+   - المجلدات الثابتة: `css/`، `js/`، `img/`، `assets/`، إلخ.
 
-</div>
+2. **معالجة متغيرات الميكروتك ديناميكياً**:
+   يقوم المحاكي بقراءة قوالب HTML واستبدال وسوم الميكروتك تلقائياً:
+   - `$(username)`: اسم المستخدم الحالي.
+   - `$(link-login)` و `$(link-login-only)`: روابط تسجيل الدخول (`/login`).
+   - `$(link-status)`: رابط صفحة الحالة (`/status`).
+   - `$(link-logout)`: رابط تسجيل الخروج (`/logout`).
+   - `$(uptime)`: عداد وقت الاتصال الحي.
+   - `$(bytes-in)` و `$(bytes-in-nice)`: استهلاك الرفع الحي.
+   - `$(bytes-out)` و `$(bytes-out-nice)`: استهلاك التنزيل الحي.
+   - `$(remain-bytes-total)` و `$(remain-bytes-total-nice)`: الرصيد المتبقي.
+   - `$(ip)` و `$(mac)`: عنوان الآي بي والماك.
+   - `$(error)` والشروط `$(if error)...$(endif)`: رسائل وأخطاء المصادقة.
+
+3. **كروت الاختبار السريعة المدمجة**:
+   - كرت ناجح: أي رقم كرت عادي (مثال: `777723089`).
+   - كرت مستخدم في جهاز آخر: `999` (simultaneous session limit reached).
+   - كرت منتهي الصلاحية: `888` (uptime limit reached).
+   - كرت منتهي البروفايل: `777` (no valid profile found).
+   - مستخدم غير موجود: `000` (user not found).
+   - كرت مقيد بماك آخر: `111` (invalid Calling-Station-Id).
+
+4. **تشغيل الخادم**:
+   - المنفذ: `3000`
+   - أمر التشغيل: `npm run dev`
