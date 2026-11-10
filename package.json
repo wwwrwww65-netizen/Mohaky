@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "tsx watch server.ts",
     "build": "tsc --noEmit",
-    "start": "tsx server.ts",
+    "start": "node server.ts",
     "lint": "tsc --noEmit"
   },
   "dependencies": {

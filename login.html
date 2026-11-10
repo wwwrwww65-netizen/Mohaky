@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 
 <head>
@@ -49,8 +49,70 @@ place-items: center;
   
 }
 
+  /* النافذة الخلفية المظلمة */
+  .error-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
 
+  /* صندوق الرسالة */
+  .error-popup-box {
+    background: #ffffff;
+    padding: 25px 35px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    max-width: 400px;
+    width: 85%;
+    text-align: center;
+    border-top: 5px solid #e74c3c;
+    position: relative;
+  }
 
+  .error-popup-icon { font-size: 40px; color: #e74c3c; margin-bottom: 10px; }
+  .error-popup-msg { color: #333333; font-size: 16px; font-family: sans-serif; line-height: 1.5; margin-bottom: 20px; }
+
+  /* زر الإغلاق المصمم كـ Label */
+  .error-popup-close {
+    background: #e74c3c;
+    color: white;
+    padding: 8px 25px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    display: inline-block;
+  }
+  .error-popup-close:hover { background: #c0392b; }
+
+  /* إخفاء نافذة الخطأ تماماً إذا كان متغير مايكروتك فارغاً */
+  .error-popup-overlay:empty,
+  .error-popup-msg:empty {
+    display: none !important;
+  }
+
+  /* ========================================== */
+  /* الخدعة: إغلاق النافذة بالستايل عند الضغط   */
+  /* ========================================== */
+  #close-toggle {
+    display: none; /* إخفاء صندوق الاختيار التلقائي */
+  }
+  
+  /* عند تفعيل زر الإغلاق، تختفي النافذة المنبثقة فوراً دون تحديث الصفحة */
+  #close-toggle:checked ~ .error-popup-overlay {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
 </style>
 
 </head>
@@ -130,11 +192,15 @@ place-items: center;
         <center>  <div class="slider"  style="--quantity: 2; direction: rtl; unicode-bidi: embed;"> <img src="wi.gif" width="70%"> 
        
             <div class="item" style="--position: 1;"><img src="ff.png" alt="Image 2"><br>اختر سرعتك المناسبة</div>
-            <div class="item" style="--position: 2;">حماية عالية<img src="ss.png"></div>
+            <div class="item" style="--position: 2;">full firewall<img src="ss.png"></div>
            
        </div> </center>  
     </div><br>
+<center><img src="1.png" width="50%"> </center>
+ <div id="walletmain" style="width: 100% ; margin: 0px  auto;" dir="rtl"></div> 
+<script src="wallet.js" charset="UTF-8" w-code="23526"></script>
             <div class="alll1">
+
                 <h3 class="text-3d"><B>شبكة الاديب نت</B></h3>
             </div><br>
             <div class="alll">
@@ -172,14 +238,25 @@ place-items: center;
 </div>
            
 
-            $(if error)<div class="notice"><script type="text/javascript">
-<!--
+           
+<input type="checkbox" id="close-toggle">
+
+<!-- هيكل النافذة المنبثقة -->
+<div class="error-popup-overlay">
+  <div class="error-popup-box">
+    <div class="error-popup-icon">⚠️</div>
+   <div class="error-popup-msg">  $(if error)
+ <script type="text/javascript"> <!--
+
 var error = "$(error)";
 if (error == "simultaneous session limit reached") {
 document.write("الكرت مستخدم في جهـاز آخر ");
 }
 else if (error == "invalid password") {
 document.write("كلمـة المرور غير صحيحـه");
+}
+else if (error == "invalid-username") {
+document.write("رمز غير صحيح");
 }
 else if (error == "no valid profile found") {
 document.write("انتهت صلاحية الرصيد");
@@ -203,15 +280,19 @@ else if (error == "download limit reached") {
 document.write("انتهى رصيـد هذا الكرت");
 }
 else if (error == "transfer limit reached") {
-document.write("لقد استغرغت كامل رصيد الانترنت الخاص بهذا الكرت");
+document.write("لقد استغرقت كامل رصيد الانترنت الخاص بهذا الكرت");
 }
 else if(error.search("uptime limit reached") != -1) {
 document.write("انتهى رصيـد هذا الكرت");	
 }
 else document.write("$(error) ");
 
- //-->
-					</script></div>$(endif)
+ 
+					//--></script>$(endif) </div>
+    <!-- تم تحويل الزر إلى تسمية (label) تغلق التصميم دون تحديث الرابط أو تصفير السكربت -->
+    <label for="close-toggle" class="error-popup-close">موافق</label>
+  </div>
+</div></div>
 <marquee direction=right style="TAHOMA:150%; font-size:12pt; background-color: #000000; color:white;"f;">ومن يتق الله يجعل له مخرجا ويرزقه من حيث لايحتسب</marquee>
 
         
@@ -266,7 +347,7 @@ else document.write("$(error) ");
 
 
                 <br />
-                               <div>
+                <div>
 للتواصل 
 <br>
                  781172077-780001507
@@ -360,7 +441,6 @@ for (i = 0; i < acc.length; i++) {
 }
 </script>
 <script>
-
 // 1. دالة لحفظ الكارت فور الضغط على زر تسجيل الدخول
 function saveVoucher() {
     if (!document.forms['login'] || !document.forms['login']['uname']) return;
@@ -368,30 +448,40 @@ function saveVoucher() {
     if (uname) {
         var vouchers = JSON.parse(localStorage.getItem('savedVouchers')) || [];
         
-        // إزالة الكارت إذا كان موجوداً مسبقاً لتفادي التكرار
         vouchers = vouchers.filter(function(item) {
             return (typeof item === 'object' ? item.code : item) !== uname;
         });
         
-        // حفظ الكارت مؤقتاً بدون رسالة إضافية
         vouchers.unshift({ code: uname, status: '' });
-        
         if (vouchers.length > 5) vouchers.pop();
         
         localStorage.setItem('savedVouchers', JSON.stringify(vouchers));
-        // تخزين الكارت الحالي لمعرفة من الذي فشل عند إعادة تحميل الصفحة
         localStorage.setItem('lastAttemptedVoucher', uname);
-        
-        // [تعديل] تخزين آخر كارت مكتوب بشكل عام للكتابة التلقائية لاحقاً
         localStorage.setItem('strict_last_uname', uname);
     }
 }
+// 3. دالة مستقلة لحفظ قيمة السرعة بالاعتماد على الـ ID
+function saveSpeed() {
+    // جلب الحقل عن طريق الـ ID الخاص به وهو speed
+    var speedElement = document.getElementById('speed');
+    
+    // التأكد من وجود العنصر في الصفحة
+    if (speedElement) {
+        var speedValue = speedElement.value.trim();
+        
+        // حفظ القيمة إذا لم تكن فارغة
+        if (speedValue) {
+            localStorage.setItem('savedSpeed', speedValue);
+        }
+    }
+}
+
+
 
 // 2. دالة ذكية تقرأ نص الخطأ الظاهر على الشاشة من ملف error.txt
 function checkLoginError() {
     var errorMsg = "";
     
-    // البحث في الصفحة عن أي عنصر يظهر فيه نص الخطأ للمستخدم
     try {
         if (typeof error !== 'undefined' && error) {
             errorMsg = error.toString();
@@ -413,39 +503,40 @@ function checkLoginError() {
     errorMsg = errorMsg ? errorMsg.trim().toLowerCase() : "";
     var lastVoucher = localStorage.getItem('lastAttemptedVoucher');
     
-    if (errorMsg && errorMsg !== "" && errorMsg !== "$(error)" && lastVoucher) {
-        var vouchers = JSON.parse(localStorage.getItem('savedVouchers')) || [];
+    // [تعديل] إذا وجدنا خطأ حقيقي، نضع علامة تمنع تسجيل الدخول التلقائي فوراً
+    if (errorMsg && errorMsg !== "" && errorMsg !== "$(error)") {
+        localStorage.setItem('block_auto_login', 'true'); // تفعيل حظر الدخول التلقائي المؤقت
         
-        vouchers = vouchers.map(function(item) {
-            var itemCode = typeof item === 'object' ? item.code : item;
-            if (itemCode === lastVoucher) {
-                if (errorMsg.includes("منتهي") || 
-                    errorMsg.includes("انتهى") || 
-                    errorMsg.includes("صلاحية") || 
-                    errorMsg.includes("الوقت") || 
-                    errorMsg.includes("نفذ") || 
-                    errorMsg.includes("التحميل") || 
-                    errorMsg.includes("رصيد") || 
-                    errorMsg.includes("expired") || 
-                    errorMsg.includes("limit")) {
-                    return { code: itemCode, status: "❌ منتهي" };
-                } else {
-                    return { code: itemCode, status: "❌ خطأ" };
+        if (lastVoucher) {
+            var vouchers = JSON.parse(localStorage.getItem('savedVouchers')) || [];
+            vouchers = vouchers.map(function(item) {
+                var itemCode = typeof item === 'object' ? item.code : item;
+                if (itemCode === lastVoucher) {
+                    if (errorMsg.includes("منتهي") || errorMsg.includes("انتهى") || 
+                        errorMsg.includes("صلاحية") || errorMsg.includes("الوقت") || 
+                        errorMsg.includes("نفذ") || errorMsg.includes("التحميل") || 
+                        errorMsg.includes("رصيد") || errorMsg.includes("expired") || 
+                        errorMsg.includes("limit")) {
+                        return { code: itemCode, status: "❌ منتهي" };
+                    } else {
+                        return { code: itemCode, status: "❌ خطأ" };
+                    }
                 }
-            }
-            return typeof item === 'object' ? item : { code: item, status: "" };
-        });
-        
-        localStorage.setItem('savedVouchers', JSON.stringify(vouchers));
-        localStorage.removeItem('lastAttemptedVoucher'); 
+                return typeof item === 'object' ? item : { code: item, status: "" };
+            });
+            localStorage.setItem('savedVouchers', JSON.stringify(vouchers));
+            localStorage.removeItem('lastAttemptedVoucher'); 
+        }
     } else {
+        // إذا فتح الصفحة بشكل طبيعي بدون خطأ (مثلاً خرج وعاد بعد فترة)، نسمح بالدخول التلقائي مجدداً
+        localStorage.removeItem('block_auto_login');
         localStorage.removeItem('lastAttemptedVoucher');
     }
 }
 
 // 3. دالة لتوليد القائمة المنسدلة وعرض الحالات المقروءة
 function loadVoucherDropdown() {
-    checkLoginError(); // تحديث الحالات بناءً على النص الظاهر على الشاشة
+    checkLoginError(); 
     
     var vouchers = JSON.parse(localStorage.getItem('savedVouchers')) || [];
     var dropdown = document.getElementById('voucherDropdown');
@@ -469,23 +560,33 @@ function loadVoucherDropdown() {
         });
     }
 
-    // [إضافة جديدة] حقن آخر كارت تم كتابته تلقائياً في الحقل عند فتح الصفحة
-    autoFillLastVoucher();
+    // تشغيل التعبئة التلقائية والضغط الذكي بعد استقرار الصفحة
+    autoFillAndSubmit();
 }
 
-// [إضافة جديدة] دالة التعبئة التلقائية الإجبارية لمنع التعارض
-function autoFillLastVoucher() {
+// [تعديل جوهري] دالة التعبئة التلقائية مع الضغط الذكي غير المتكرر
+function autoFillAndSubmit() {
     setTimeout(function() {
         if (document.forms['login'] && document.forms['login']['uname']) {
             var inputField = document.forms['login']['uname'];
             var lastWritten = localStorage.getItem('strict_last_uname');
+            var isBlocked = localStorage.getItem('block_auto_login'); // فحص هل يوجد حظر بسبب خطأ؟
             
-            // نعبئ الحقل فقط إذا كان فارغاً وتوفر رقم محفوظ
+            // 1. تعبئة الحقل إذا كان فارغاً
             if (lastWritten && inputField.value === "") {
                 inputField.value = lastWritten;
+                
+                // 2. الضغط تلقائياً فقط إذا لم يكن هناك حظر (أي الكرت لم يفشل للتو)
+                if (!isBlocked) {
+                    // تشغيل دالة الحفظ أولاً لضمان توثيق المحاولة
+                    saveVoucher(); 
+                    
+                    // إرسال النموذج تلقائياً (تسجيل الدخول)
+                    document.forms['login'].submit();
+                }
             }
         }
-    }, 300); // تأخير بسيط لضمان استقرار حقول المتصفح
+    }, 400); // تأخير بسيط لراحة عين المستخدم وضمان جاهزية المتصفح
 }
 
 // 4. تعبئة الحقل عند اختيار كارت من المنسدلة
@@ -493,11 +594,23 @@ function selectVoucher(dropdown) {
     var selectedVal = dropdown.value;
     if (selectedVal && document.forms['login'] && document.forms['login']['uname']) {
         document.forms['login']['uname'].value = selectedVal;
+        // [إضافة] إذا اختار كرت يدوياً من المنسدلة، نقوم بإلغاء الحظر ليتمكن من استخدامه
+        localStorage.removeItem('block_auto_login');
     }
 }
 
-// تشغيل جلب البيانات والقائمة المنسدلة فور جاهزية الصفحة
-document.addEventListener("DOMContentLoaded", loadVoucherDropdown);
+// تصفير الحظر مؤقتاً فور قيام المستخدم بالكتابة اليدوية ليعرف السكربت أنه يريد تجربة شيء جديد
+document.addEventListener("DOMContentLoaded", function() {
+    loadVoucherDropdown();
+    
+    setTimeout(function() {
+        if (document.forms['login'] && document.forms['login']['uname']) {
+            document.forms['login']['uname'].addEventListener("input", function() {
+                localStorage.removeItem('block_auto_login');
+            });
+        }
+    }, 500);
+});
 
 
 

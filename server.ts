@@ -162,6 +162,38 @@ function renderMikrotikTemplate(filePath: string, req: express.Request): string 
     }
   }
 
+  // In-memory safeguard for infologin and missing DOM elements without modifying any files on disk
+  const domPolyfillScript = `<script>
+(function() {
+  var origGet = document.getElementById.bind(document);
+  document.getElementById = function(id) {
+    var el = origGet(id);
+    if (!el && (id === 'infologin' || id === 'title' || id === 'progressbar')) {
+      el = document.createElement(id === 'title' ? 'title' : 'div');
+      el.id = id;
+      el.style.display = 'none';
+      try {
+        (document.body || document.head || document.documentElement).appendChild(el);
+      } catch(e) {}
+    }
+    return el;
+  };
+})();
+</script>`;
+
+  if (content.includes('</head>')) {
+    content = content.replace('</head>', domPolyfillScript + '</head>');
+  } else {
+    content = domPolyfillScript + content;
+  }
+
+  // Also ensure <div id="infologin"> is present immediately inside body
+  if (/<body[^>]*>/i.test(content)) {
+    content = content.replace(/(<body[^>]*>)/i, '$1\n<div id="infologin" style="display:none"></div>');
+  } else {
+    content = '<div id="infologin" style="display:none"></div>\n' + content;
+  }
+
   return content;
 }
 
@@ -410,9 +442,23 @@ const server = app.listen(PORT, '0.0.0.0', () => {
 server.on('error', (err: any) => {
   if (err.code === 'EADDRINUSE') {
     console.error(`[Hotspot Server] Port ${PORT} already in use.`);
+    process.exit(1);
   } else {
     console.error('[Hotspot Server] Server error:', err);
+    process.exit(1);
   }
+});
+
+process.on('SIGTERM', () => {
+  server.close(() => {
+    process.exit(0);
+  });
+});
+
+process.on('SIGINT', () => {
+  server.close(() => {
+    process.exit(0);
+  });
 });
 
 process.on('uncaughtException', (err) => {
