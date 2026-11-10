@@ -14,6 +14,30 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Support multipart/form-data for status.html fetch speed change requests
+app.use((req, res, next) => {
+  if (req.headers['content-type']?.includes('multipart/form-data')) {
+    let data = '';
+    req.setEncoding('utf8');
+    req.on('data', chunk => { data += chunk; });
+    req.on('end', () => {
+      const dstMatch = data.match(/name="dst"[\r\n]+([^\r\n]+)/);
+      if (dstMatch && dstMatch[1]) {
+        req.body = req.body || {};
+        req.body.dst = dstMatch[1].trim();
+      }
+      const eraseMatch = data.match(/name="erase-cookie"[\r\n]+([^\r\n]+)/);
+      if (eraseMatch && eraseMatch[1]) {
+        req.body = req.body || {};
+        req.body['erase-cookie'] = eraseMatch[1].trim();
+      }
+      next();
+    });
+  } else {
+    next();
+  }
+});
+
 // Serve static assets directly (css, js, images, zip, etc.)
 app.use('/css', express.static(path.join(__dirname, 'css')));
 app.use('/js', express.static(path.join(__dirname, 'js')));
@@ -215,6 +239,15 @@ function parseCookies(header: string | undefined): Record<string, string> {
   return list;
 }
 
+const speedLabels: Record<string, string> = {
+  'bb1bb2bb3bb4bb5-bb': 'سرعة فائقة (4 Mbps)',
+  'ss1ss2ss3ss5ss7-ss': 'سرعة متوسطة (2 Mbps)',
+  'c1c2c3c4c5c6-pp': 'سرعة اقتصادية (1 Mbps)',
+  '4a4b4c4d4e4f4g-44f': 'سرعة اقتصادية (1 Mbps)',
+  '9a9b9c9d9e9f9-99-ba': 'سرعة فائقة (6 Mbps)',
+  '8a8b8c8d8e8f8g8h8i-55-sa': 'السرعة القصوى (10 Mbps)',
+};
+
 // /login routes (GET and POST)
 function handleAuth(rawUser: string, rawSpeed: string, req: express.Request, res: express.Response) {
   let user = (rawUser || '777723089').trim();
@@ -235,6 +268,12 @@ function handleAuth(rawUser: string, rawSpeed: string, req: express.Request, res
   } else if (speed.startsWith('@')) {
     domain = speed.slice(1);
     speed = domain.split('|')[0];
+  }
+
+  if (speedLabels[speed]) {
+    const humanSpeed = speedLabels[speed];
+    domain = `${humanSpeed}|0|pm|all|*no**|non***`;
+    speed = humanSpeed;
   }
 
   const cleanUser = user.trim();
@@ -370,7 +409,17 @@ app.all(['/logout', '/logout.html'], (req, res) => {
     targetUname = cookies['uname'] || cookies['uname_raw'] || '';
   }
 
-  if (isApplying || (targetUname && targetUname !== '' && !req.query.disconnect && req.query.stay !== 'true')) {
+  const newDstSpeed = (req.body?.dst as string) || (req.query?.dst as string) || '';
+  if (newDstSpeed) {
+    const readableSpeed = speedLabels[newDstSpeed] || newDstSpeed;
+    sessionState.speed = readableSpeed;
+    sessionState.domain = `${readableSpeed}|0|pm|all|*no**|non***`;
+    pendingAutoLogin = sessionState.username + '@' + readableSpeed;
+    res.cookie('uname', encodeURIComponent(pendingAutoLogin), { path: '/', maxAge: 259200000 });
+    if (req.headers.accept?.includes('application/json') || req.xhr || req.headers['content-type']?.includes('multipart/form-data')) {
+      return res.status(200).send('OK');
+    }
+  } else if (isApplying || (targetUname && targetUname !== '' && !req.query.disconnect && req.query.stay !== 'true')) {
     try {
       targetUname = decodeURIComponent(targetUname);
     } catch (e) {}
