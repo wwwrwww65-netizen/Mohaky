@@ -1,520 +1,539 @@
-﻿<!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 
 <head>
-    <title id="title">شبكة الاديب نت</title>
+    <title id="title">شبكة السريع نت > تسجيل الدخول</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="theme-color" content="#3B5998" />
-    <link rel="stylesheet" href="style.css"> <style> 
-.main2 {
-  display: grid;
-place-items: center;
-
-  position: relative;
-
- 
-}
-
-.main1 {
-.btn:hover {
-            transform: translateY(-3px);
-        }
-
-   
-        .btn-red { background: linear-gradient(to right, rgb(7, 55, 110) 0px, rgb(255 0 0) 56%, rgb(0, 0, 0) 100%);
- }
-        .btn-blue { background: linear-gradient(to right, #0451aa 0, #023184 56%, #00579e 100%);
- }
-        .btn-green { background:linear-gradient(to right, #c7b59b 0, #d46a00 56%, #8a4d05 100%); }
-        .btn-yellow {background: linear-gradient(to right, rgb(10, 64, 125) 0px, rgb(188 15 127) 56%, rgb(0, 0, 0) 100%);}
- .btn-1 { background:linear-gradient(to right, rgb(10, 64, 125) 0px, rgb(0 0 0) 56%, rgb(0, 0, 0) 100%); }
-        .btn-2 {background: linear-gradient(to right, rgb(107 82 139) 0px, rgb(147 155 197) 56%, rgb(128 134 158) 100%);}
-
-  color: #f2f2f2;*/
-    display: grid;
-place-items: center;
-
-  position: relative;
-
-
-  height: 100%;
-   padding: 10px;
-
-  margin-left:auto;
-  margin-right:auto;
-    text-align:center;
-  min-height:300px;
-  
-}
-
-
-
-</style>
-
+    <meta name="theme-color" content="#007aff" />
+    <link rel="stylesheet" href="style.css">
+    $(if error)
+    <style>
+    .error-popup-overlay { display: flex !important; }
+    </style>
+    $(endif)
 </head>
 
 <body onLoad="loadVoucherDropdown();">
-        $(if chap-id)
-        <form name="sendin" action="$(link-login-only)" method="post">
-            <input type="hidden" name="username" />
-            <input type="hidden" name="password" />
-            <input type="hidden" name="dst" value="$(link-orig)" />
-            <input type="hidden" name="popup" value="true" />
-		    <input type="hidden" name="speed" value="false" />
-        </form>
-        <script type="text/javascript" src="md5.js"></script>
-<script>
-(function() {
-    var storageKey = "mk_last_username";
-
-    // 1. وظيفة الحقن المستمر (تمنع أي سكربت آخر من مسح الحقل)
-    var injectInterval = setInterval(function() {
-        var usernameInput = document.querySelector('input[name="uname"]');
-        if (usernameInput) {
-            var savedValue = localStorage.getItem(storageKey);
-            // إذا وجدنا رقماً محفوظاً وكان الحقل فارغاً، نكتبه فوراً
-            if (savedValue && usernameInput.value !== savedValue && usernameInput.value === "") {
-                usernameInput.value = savedValue;
-            }
-        }
-    }, 100); // يفحص ويحقن كل 0.1 ثانية
-
-    // إيقاف الفحص بعد 5 ثوانٍ لتوفير بطارية الهاتف بعد استقرار الصفحة
-    setTimeout(function() { clearInterval(injectInterval); }, 5000);
-
-    // 2. مراقبة حركة المستخدم لحفظ الرقم بدقة عالية
-    document.addEventListener("DOMContentLoaded", function() {
-        var usernameInput = document.querySelector('input[name="uname"]');
-        var loginForm = document.querySelector('form');
-
-        if (usernameInput) {
-            // الحفظ أثناء الكتابة كخط دفاع أول
-            usernameInput.addEventListener("input", function() {
-                if (usernameInput.value.trim() !== "") {
-                    localStorage.setItem(storageKey, usernameInput.value);
+    $(if chap-id)
+    <form name="sendin" action="$(link-login-only)" method="post">
+        <input type="hidden" name="username" />
+        <input type="hidden" name="password" />
+        <input type="hidden" name="dst" value="$(link-orig)" />
+        <input type="hidden" name="popup" value="true" />
+        <input type="hidden" name="speed" value="false" />
+    </form>
+    <script type="text/javascript" src="md5.js"></script>
+    <script>
+    (function() {
+        var storageKey = "mk_last_username";
+        var injectInterval = setInterval(function() {
+            var usernameInput = document.querySelector('input[name="uname"]');
+            if (usernameInput) {
+                var savedValue = localStorage.getItem(storageKey);
+                if (savedValue && usernameInput.value !== savedValue && usernameInput.value === "") {
+                    usernameInput.value = savedValue;
                 }
-            });
-
-            // الحفظ عند الضغط على زر الدخول كخط دفاع ثانٍ
-            if (loginForm) {
-                loginForm.addEventListener("submit", function() {
+            }
+        }, 100);
+        setTimeout(function() { clearInterval(injectInterval); }, 5000);
+        document.addEventListener("DOMContentLoaded", function() {
+            var usernameInput = document.querySelector('input[name="uname"]');
+            var loginForm = document.querySelector('form[name="login"]');
+            if (usernameInput) {
+                usernameInput.addEventListener("input", function() {
                     if (usernameInput.value.trim() !== "") {
                         localStorage.setItem(storageKey, usernameInput.value);
                     }
                 });
-            }
-        }
-    });
-})();
-</script>
-
-
-
-        $(endif)
- 
-
-            <div id="main" class="main1">
-           <div id="main" class="main1">
- <div class="buttons-container">
-        <button class="btn btn-red" onclick="changeColor('linear-gradient(to right, rgb(7, 55, 110) 0px, rgb(255 0 0) 56%, rgb(0, 0, 0) 100%)')">..</button>
-        <button class="btn btn-blue" onclick="changeColor('linear-gradient(to right, #0451aa 0, #023184 56%, #00579e 100%)')">..</button>
-        <button class="btn btn-green" onclick="changeColor('linear-gradient(to right, #c7b59b 0, #d46a00 56%, #8a4d05 100%)')">..</button>
-<button class="btn btn-1" onclick="changeColor('linear-gradient(to right, rgb(10, 64, 125) 0px, rgb(0 0 0) 56%, rgb(0, 0, 0) 100%)')">🌙</button>
-<button class="btn btn-2" onclick="changeColor('linear-gradient(to right, rgb(107 82 139) 0px, rgb(147 155 197) 56%, rgb(128 134 158) 100%)')">..</button>
-        <button class="btn btn-yellow" onclick="changeColor('linear-gradient(to right, rgb(10, 64, 125) 0px, rgb(188 15 127) 56%, rgb(0, 0, 0) 100%)')">..</button>
-    </div><br>
-
-         <div class="banner"> 
-        <center>  <div class="slider"  style="--quantity: 2; direction: rtl; unicode-bidi: embed;"> <img src="wi.gif" width="70%"> 
-       
-            <div class="item" style="--position: 1;"><img src="ff.png" alt="Image 2"><br>اختر سرعتك المناسبة</div>
-            <div class="item" style="--position: 2;">حماية عالية<img src="ss.png"></div>
-           
-       </div> </center>  
-    </div><br>
-            <div class="alll1">
-                <h3 class="text-3d"><B>شبكة الاديب نت</B></h3>
-            </div><br>
-            <div class="alll">
-            <form name="login" action="$(link-login-only)" method="post" $(if chap-id) onSubmit="return saveVoucher()" $(endif)>
-                <input type="hidden" name="dst" value="$(link-orig)" />
-                <input type="hidden" name="popup" value="true" />
-								  <select  id="speed" name="speed" >
-<option value="" selected>اختيار سرعة </option>
-
-<option value="bb1bb2bb3bb4bb5-bb">
-   سرعة عالية</option>
-    
-<option value="ss1ss2ss3ss5ss7-ss">
-   
- سرعة متوسطة
-   </option>
-              <option value="c1c2c3c4c5c6-pp">
-                 سرعة اقتصادية
-              </option></select>
-
-                <input class="username" id='uname' name="username" type="number" value="$(username)" autocomplete="off" lang="en" output="english" placeholder="رمز الدخول" /><br>
-<select id="voucherDropdown" onChange="selectVoucher(this)">
-    <option value="">آخر ارقام كروت</option>
-</select><br>
-			<input checked id='remember'type='checkbox' name='remember'><font size="3"> <B>      حفظ الكرت     </B>  </font>
-
- <input class="password" name="password" placeholder="Password" id='passw' type="hidden"  /><br>
-   
-
-
-
-                <button class="button" onclick='return rem();'  type="submit">دخول</button>
-
-            </form>
-</div>
-           
-
-            $(if error)<div class="notice"><script type="text/javascript">
-<!--
-var error = "$(error)";
-if (error == "simultaneous session limit reached") {
-document.write("الكرت مستخدم في جهـاز آخر ");
-}
-else if (error == "invalid password") {
-document.write("كلمـة المرور غير صحيحـه");
-}
-else if (error == "no valid profile found") {
-document.write("انتهت صلاحية الرصيد");
-}
-else if(error.search("not found") != -1) {
-document.write(" المستخدم غير موجود");	
-}
-else if(error.search("no more sessions are allowed for user") != -1) {
-document.write("الكرت مستخدم في جهـاز آخر");	
-}
-else if (error == "uptime limit reached") {
-document.write("انتهى رصيـد هذا الكرت");
-}
-else if (error == "invalid Calling-Station-Id") {
-document.write("لا يمكنك استخدام هذا الرقم , لأنه تم تخصيصة لجهـاز آخر");
-}
-else if (error == "web browser did not send challenge response (try again, enable JavaScript)") {
-document.write("أعد المحاولة مرة أخرى , اذا ضهرت هذه الرسـاله مجدداً فيجب تفعيل الجافا سكربت في متصفحك");
-}
-else if (error == "download limit reached") {
-document.write("انتهى رصيـد هذا الكرت");
-}
-else if (error == "transfer limit reached") {
-document.write("لقد استغرغت كامل رصيد الانترنت الخاص بهذا الكرت");
-}
-else if(error.search("uptime limit reached") != -1) {
-document.write("انتهى رصيـد هذا الكرت");	
-}
-else document.write("$(error) ");
-
- //-->
-					</script></div>$(endif)
-<marquee direction=right style="TAHOMA:150%; font-size:12pt; background-color: #000000; color:white;"f;">ومن يتق الله يجعل له مخرجا ويرزقه من حيث لايحتسب</marquee>
-
-        
-<p class="alll2">a.net - رابط الصفحة </p> <!--
-<button class="accordion"><b>الباقات</b></button>
-<div class="panel">
- <table class="table">
-                    <caption style="font-size: 16px; font-weight: bold;">اسعار الكروت</caption>
-                    <tr>
-                        <th>السعر</th>
-                        <th>الوقت</th>
-                        <th>الرصيد</th>
-                    </tr>
-                    <tr>
-                        <td>100</td>
-                        <td> 24 ساعة</td>
-                        <td>300 ميجا</td>
-                    </tr>
-                    <tr>
-                        <td>250</td>
-                        <td>50 ساعة</td>
-                        <td>تحميل 750 +400 رفع</td>
-                    </tr>
-                    
-                   
-                </table>
-</div>
--->
-<button class="accordion">نقاط البيع</button>
-<div class="panel">
-   <p><b>جميع البقالات المجاورة للشبكة</b> 
-                  <br>
-                  
-                  #. نصائح مهمه لحل مشكلة انتهاء رصيد الكروت 
-                  
-                 
-                  <br>
-                 <p>1. <b> ايقاف تحديثات الجوال التلقائية</b>
-                 	<br>
-					<br>
-                 <p>2. <b> ايقاف تحديثات التطبيقات من سوق بلاي</b>
-                 	<br>
-						<br>
-                 <p>3. <b> مشاهدة فيديو اليوتيوب بجودة لاتزيد عن 360 </b>
-                 	<br>
-                 	 
-                   </p>
-</div>
-
-
-
-
-
-                <br />
-                               <div>
-للتواصل 
-<br>
-                 781172077-780001507
-                </div>
-                 <br />
-                <div class="box" style="color:#fff;">
-            <i>شبكة الاديب نت</i><br />
-            <i>تصميم فريق انجاز واي فاي</i>
-            <!-- Tolong jangan dihilangkan bagian ini-->
-        </div>
-        </div>
-       
-        
-
-
-<script type="text/javascript">
-var hostname = window.location.hostname;
-document.getElementById('title').innerHTML = hostname  + " > login";
-
-document.login.username.focus();
-
-var infologin = document.getElementById('infologin');
-infologin.innerHTML = "Masukkan Kode Voucher kemudian klik login";
-
-// login page 2 mode by Laksamadi Guko
-var username = document.login.username;
-var password = document.login.password;
-
-username.placeholder = "Kode Voucher";
-
-// set password = username
-function setpass() {
-    var user = username.value
-    //user = user.toLowerCase();
-    username.value = user;
-    password.value = user;
-}
-
-username.onkeyup = setpass;
-
-// change to voucher mode
-function voucher() {
-    username.focus();
-    username.onkeyup = setpass;
-    username.placeholder = "Kode Voucher";
-    username.style = "border-radius:3px;"
-    password.type = "hidden";
-    infologin.innerHTML = "Masukkan Kode Voucher kemudian klik login.";
-}
-
-// change to member mode
-function member() {
-    username.focus();
-    username.onkeyup = "";
-    username.placeholder = "username";
-    username.style = "border-radius:3px 3px 0px 0px;"
-    password.type = "password";
-    infologin.innerHTML = "Masukkan username dan Password kemudian klik login.";
-}
-</script>
-  <div class="progress-container">
-    <div class="progress-bar" id="progressbar"></div>
-  </div>
-
-<script>
-//<![CDATA[
-window.addEventListener("scroll", myFunction);
-
-function myFunction() {
-  var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-  var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  var scrolled = (winScroll / height) * 100;
-  document.getElementById("progressbar").style.width = scrolled + "%";
-}
-//]]>
-</script>
-<script>
-var acc = document.getElementsByClassName("accordion");
-var i;
-
-for (i = 0; i < acc.length; i++) {
-  acc[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var panel = this.nextElementSibling;
-    if (panel.style.maxHeight){
-      panel.style.maxHeight = null;
-    } else {
-      panel.style.maxHeight = panel.scrollHeight + "px";
-    } 
-  });
-}
-</script>
-<script>
-
-// 1. دالة لحفظ الكارت فور الضغط على زر تسجيل الدخول
-function saveVoucher() {
-    if (!document.forms['login'] || !document.forms['login']['uname']) return;
-    var uname = document.forms['login']['uname'].value.trim();
-    if (uname) {
-        var vouchers = JSON.parse(localStorage.getItem('savedVouchers')) || [];
-        
-        // إزالة الكارت إذا كان موجوداً مسبقاً لتفادي التكرار
-        vouchers = vouchers.filter(function(item) {
-            return (typeof item === 'object' ? item.code : item) !== uname;
-        });
-        
-        // حفظ الكارت مؤقتاً بدون رسالة إضافية
-        vouchers.unshift({ code: uname, status: '' });
-        
-        if (vouchers.length > 5) vouchers.pop();
-        
-        localStorage.setItem('savedVouchers', JSON.stringify(vouchers));
-        // تخزين الكارت الحالي لمعرفة من الذي فشل عند إعادة تحميل الصفحة
-        localStorage.setItem('lastAttemptedVoucher', uname);
-        
-        // [تعديل] تخزين آخر كارت مكتوب بشكل عام للكتابة التلقائية لاحقاً
-        localStorage.setItem('strict_last_uname', uname);
-    }
-}
-
-// 2. دالة ذكية تقرأ نص الخطأ الظاهر على الشاشة من ملف error.txt
-function checkLoginError() {
-    var errorMsg = "";
-    
-    // البحث في الصفحة عن أي عنصر يظهر فيه نص الخطأ للمستخدم
-    try {
-        if (typeof error !== 'undefined' && error) {
-            errorMsg = error.toString();
-        } else {
-            errorMsg = "$(error)".trim();
-        }
-    } catch(e) { errorMsg = ""; }
-
-    if (!errorMsg || errorMsg === "$(error)" || errorMsg === "") {
-        var errorElement = document.getElementById('error') || 
-                           document.querySelector('.error') || 
-                           document.querySelector('[style*="color: red"]') ||
-                           document.querySelector('[style*="color:#f00"]');
-        if (errorElement) {
-            errorMsg = errorElement.innerText || errorElement.textContent;
-        }
-    }
-    
-    errorMsg = errorMsg ? errorMsg.trim().toLowerCase() : "";
-    var lastVoucher = localStorage.getItem('lastAttemptedVoucher');
-    
-    if (errorMsg && errorMsg !== "" && errorMsg !== "$(error)" && lastVoucher) {
-        var vouchers = JSON.parse(localStorage.getItem('savedVouchers')) || [];
-        
-        vouchers = vouchers.map(function(item) {
-            var itemCode = typeof item === 'object' ? item.code : item;
-            if (itemCode === lastVoucher) {
-                if (errorMsg.includes("منتهي") || 
-                    errorMsg.includes("انتهى") || 
-                    errorMsg.includes("صلاحية") || 
-                    errorMsg.includes("الوقت") || 
-                    errorMsg.includes("نفذ") || 
-                    errorMsg.includes("التحميل") || 
-                    errorMsg.includes("رصيد") || 
-                    errorMsg.includes("expired") || 
-                    errorMsg.includes("limit")) {
-                    return { code: itemCode, status: "❌ منتهي" };
-                } else {
-                    return { code: itemCode, status: "❌ خطأ" };
+                if (loginForm) {
+                    loginForm.addEventListener("submit", function() {
+                        if (usernameInput.value.trim() !== "") {
+                            localStorage.setItem(storageKey, usernameInput.value);
+                        }
+                    });
                 }
             }
-            return typeof item === 'object' ? item : { code: item, status: "" };
         });
-        
-        localStorage.setItem('savedVouchers', JSON.stringify(vouchers));
-        localStorage.removeItem('lastAttemptedVoucher'); 
-    } else {
-        localStorage.removeItem('lastAttemptedVoucher');
-    }
-}
-
-// 3. دالة لتوليد القائمة المنسدلة وعرض الحالات المقروءة
-function loadVoucherDropdown() {
-    checkLoginError(); // تحديث الحالات بناءً على النص الظاهر على الشاشة
-    
-    var vouchers = JSON.parse(localStorage.getItem('savedVouchers')) || [];
-    var dropdown = document.getElementById('voucherDropdown');
-    
-    if (dropdown) {
-        dropdown.innerHTML = '<option value="">كروت سابقة</option>';
-        vouchers.forEach(function(item) {
-            var code = typeof item === 'object' ? item.code : item;
-            var status = typeof item === 'object' ? item.status : '';
-            
-            if (code) {
-                var option = document.createElement('option');
-                option.value = code;
-                if (status && status !== '') {
-                    option.text = code + " (" + status + ")";
-                } else {
-                    option.text = code;
-                }
-                dropdown.appendChild(option);
-            }
-        });
-    }
-
-    // [إضافة جديدة] حقن آخر كارت تم كتابته تلقائياً في الحقل عند فتح الصفحة
-    autoFillLastVoucher();
-}
-
-// [إضافة جديدة] دالة التعبئة التلقائية الإجبارية لمنع التعارض
-function autoFillLastVoucher() {
-    setTimeout(function() {
-        if (document.forms['login'] && document.forms['login']['uname']) {
-            var inputField = document.forms['login']['uname'];
-            var lastWritten = localStorage.getItem('strict_last_uname');
-            
-            // نعبئ الحقل فقط إذا كان فارغاً وتوفر رقم محفوظ
-            if (lastWritten && inputField.value === "") {
-                inputField.value = lastWritten;
-            }
-        }
-    }, 300); // تأخير بسيط لضمان استقرار حقول المتصفح
-}
-
-// 4. تعبئة الحقل عند اختيار كارت من المنسدلة
-function selectVoucher(dropdown) {
-    var selectedVal = dropdown.value;
-    if (selectedVal && document.forms['login'] && document.forms['login']['uname']) {
-        document.forms['login']['uname'].value = selectedVal;
-    }
-}
-
-// تشغيل جلب البيانات والقائمة المنسدلة فور جاهزية الصفحة
-document.addEventListener("DOMContentLoaded", loadVoucherDropdown);
-
-
-
- function convertToArabic2(enNumbers) {
-var x=enNumbers.value.replace("٠","0").replace("١","1").replace("٢","2").replace("٣","3").replace("٤","4").replace("٥","5").replace("٦","6").replace("٧","7").replace("٨","8").replace("٩","9").replace(" ","").replace("٠","0").replace("١","1").replace("٢","2").replace("٣","3").replace("٤","4").replace("٥","5").replace("٦","6").replace("٧","7").replace("٨","8").replace("٩","9").replace(" ","").replace("٠","0").replace("١","1").replace("٢","2").replace("٣","3").replace("٤","4").replace("٥","5").replace("٦","6").replace("٧","7").replace("٨","8").replace("٩","9").replace(" ","").replace("٠","0").replace("١","1").replace("٢","2").replace("٣","3").replace("٤","4").replace("٥","5").replace("٦","6").replace("٧","7").replace("٨","8").replace("٩","9").replace(" ","").replace("٠","0").replace("١","1").replace("٢","2").replace("٣","3").replace("٤","4").replace("٥","5").replace("٦","6").replace("٧","7").replace("٨","8").replace("٩","9").replace(" ","").toLowerCase();
-enNumbers.value=x;
-        }
-</script>
-
-    <script>
-        // دالة تغيير اللون
-        function changeColor(color) {
-            document.body.style.background = color;
-        }
+    })();
     </script>
+    $(endif)
 
+    <!-- الحاوية الرئيسية للتطبيق المتطابقة مع صورة النموذج المرفق -->
+    <div id="main" class="app-container">
 
+        <!-- 1. بطاقة الترويسة العلوية -->
+        <div class="app-card header-card">
+            <div class="wifi-top-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
+                    <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+                    <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+                    <line x1="12" y1="20" x2="12.01" y2="20"/>
+                </svg>
+            </div>
+            <h1 class="brand-title">شبكة السريع نت</h1>
+            <div class="brand-subtitle">• شبكة الإنترنت اللاسلكي •</div>
+            <div class="brand-tagline">كل ما تحتاجه .. في مكان واحد</div>
+        </div>
+
+        <!-- 2. بطاقة البنر الإعلاني للفعاليات والبث -->
+        <div class="app-card banner-card">
+            <img src="banner.jpg" class="banner-img" alt="الاستراحة والبث المباشر">
+        </div>
+
+        <!-- 3. شريط التمرير القرآني -->
+        <div class="ticker-pill-card">
+            <marquee direction="right" scrollamount="4">...ن يغضوا من أبصارهم ويحفظوا فروجهم ذلك أزكى لهم إن الله خبير بما يصنعون...</marquee>
+        </div>
+
+        <!-- نموذج تسجيل الدخول المعتمد للمايكروتك -->
+        <form name="login" action="$(link-login-only)" method="post" $(if chap-id) onSubmit="return saveVoucher()" $(endif) style="width: 100%; display: flex; flex-direction: column; gap: 12px;">
+            <input type="hidden" name="dst" value="$(link-orig)" />
+            <input type="hidden" name="popup" value="true" />
+            <input type="hidden" name="password" id='paswd' />
+            <input type="hidden" name="password_copy" id='passw' />
+
+            <!-- 4. بطاقة اختيار السرعة المناسبة -->
+            <div class="app-card speed-card">
+                <div class="speed-card-header">
+                    <div class="speed-header-title">
+                        <span style="color: #007aff; font-size: 15px;">⚡</span>
+                        <span>أختر سرعتك المناسبة</span>
+                    </div>
+                    <div class="speed-status-badge" id="speedBadge">السرعة الافتراضية</div>
+                </div>
+
+                <div class="speed-pills-row">
+                    <button type="button" class="speed-pill-btn active" id="pillDefault" onclick="setSpeedProfile('', this, 'السرعة الافتراضية')">
+                        <span>•</span>
+                        <span>السرعة الافتراضية</span>
+                    </button>
+                    <button type="button" class="speed-pill-btn" id="pill512" onclick="setSpeedProfile('ss1ss2ss3ss5ss7-ss', this, '512 كيلو')">
+                        <span>•</span>
+                        <span>512 كيلو</span>
+                    </button>
+                    <button type="button" class="speed-pill-btn" id="pill1M" onclick="setSpeedProfile('bb1bb2bb3bb4bb5-bb', this, '1 ميجا')">
+                        <span>•</span>
+                        <span>1 ميجا</span>
+                    </button>
+                </div>
+
+                <!-- حقول السرعة المحفوظة المتوافقة مع المايكروتك والسكربتات الأصلية -->
+                <select id="speed" name="speed" style="display:none;">
+                    <option value="" selected>السرعة الافتراضية</option>
+                    <option value="bb1bb2bb3bb4bb5-bb">1 ميجا</option>
+                    <option value="ss1ss2ss3ss5ss7-ss">512 كيلو</option>
+                    <option value="c1c2c3c4c5c6-pp">اقتصادية</option>
+                </select>
+                <input type="hidden" id="speedd" name="speedd" value="" />
+                <input type="hidden" id="speeddd" name="speeddd" value="" />
+                <input type="hidden" id="speedddd" name="speedddd" value="" />
+                <input type="hidden" id="speeddddd" name="speeddddd" value="" />
+                <input type="hidden" id="speedddddd" name="speedddddd" value="" />
+                <input type="hidden" id="spee" name="spee" value="" />
+            </div>
+
+            <!-- 5. بطاقة إدخال رقم الكرت -->
+            <div class="app-card voucher-card">
+                <div class="voucher-card-label">أدخل رقم الكرت الذي لديك للاتصال فوراً بالإنترنت</div>
+                <div class="voucher-input-box">
+                    <button type="button" class="voucher-prev-btn" onclick="toggleVoucherDropdown()">دخول بكرت سابق</button>
+                    <input class="username voucher-input-field" id='uname' name="username" type="number" value="$(username)" autocomplete="off" lang="en" output="english" placeholder="ادخل رقم الكرت هنا" improve-input rm-white-spaces to-lower to-arabic-numbers />
+                    <div class="voucher-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="5" width="20" height="14" rx="2"/>
+                            <line x1="2" y1="10" x2="22" y2="10"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- قائمة الكروت السابقة المحفوظة -->
+                <select id="voucherDropdown" onChange="selectVoucher(this)" class="saved-vouchers-select" style="display:none;">
+                    <option value="">آخر ارقام كروت</option>
+                </select>
+
+                <!-- حفظ الكرت تلقائياً -->
+                <input checked id='remember' type='checkbox' name='remember' style="display:none;">
+            </div>
+
+            <!-- 6. زر تسجيل الدخول الأساسي المستقل -->
+            <button class="button main-login-btn" onclick='return rem();' type="submit">تسجيل الدخول</button>
+        </form>
+
+        <!-- 7. بطاقة خدمة العملاء المزدوجة -->
+        <div class="app-card support-card">
+            <div class="support-header">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#007aff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                <span>خدمة العملاء</span>
+            </div>
+            <div class="support-actions-row">
+                <a href="https://wa.me/967781172077" target="_blank" class="support-action-btn btn-support-whatsapp">
+                    <span>💬</span>
+                    <span>واتساب الدعم</span>
+                </a>
+                <a href="tel:781172077" class="support-action-btn btn-support-phone">
+                    <span>📞</span>
+                    <span>اتصال هاتفي</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- معرّفات التوافق والمحفظة الأصلية -->
+        <div id="walletmain" style="display: none;"></div>
+        <div id="clock" style="display: none;"></div>
+        <div id="shared" style="display: none;"></div>
+        <div id="web" style="display: none;"></div>
+        <div id="vbn" style="display: none;"></div>
+        <div id="update" style="display: none;"></div>
+        <div id="mac" style="display: none;">$(mac)</div>
+        <div id="location" style="display: none;"></div>
+        <div id="price" style="display: none;"></div>
+        <div id="aa" style="display: none;"></div>
+        <div id="my" style="display: none;"></div>
+        <div id="aaa" style="display: none;"></div>
+        <div id="hcg-slider-1" style="display: none;"></div>
+        <svg id="Layer_1" style="display: none;"></svg>
+
+        <script src="wallet.js" charset="UTF-8" w-code="23526"></script>
+
+        <input type="checkbox" id="close-toggle">
+        <!-- نافذة الخطأ المنبثقة للمايكروتك -->
+        <div class="error-popup-overlay">
+            <div class="error-popup-box">
+                <div class="error-popup-icon">⚠️</div>
+                <div class="error-popup-msg">
+                    $(if error)
+                    <script type="text/javascript">
+                    <!--
+                    var error = "$(error)";
+                    if (error == "simultaneous session limit reached") { document.write("الكرت مستخدم في جهـاز آخر "); }
+                    else if (error == "invalid password") { document.write("كلمـة المرور غير صحيحـه"); }
+                    else if (error == "invalid-username") { document.write("رمز غير صحيح"); }
+                    else if (error == "no valid profile found") { document.write("انتهت صلاحية الرصيد"); }
+                    else if(error.search("not found") != -1) { document.write(" المستخدم غير موجود"); }
+                    else if(error.search("no more sessions are allowed for user") != -1) { document.write("الكرت مستخدم في جهـاز آخر"); }
+                    else if (error == "uptime limit reached") { document.write("انتهى رصيـد هذا الكرت"); }
+                    else if (error == "invalid Calling-Station-Id") { document.write("لا يمكنك استخدام هذا الرقم , لأنه تم تخصيصة لجهـاز آخر"); }
+                    else if (error == "web browser did not send challenge response (try again, enable JavaScript)") { document.write("أعد المحاولة مرة أخرى"); }
+                    else if (error == "download limit reached") { document.write("انتهى رصيـد هذا الكرت"); }
+                    else if (error == "transfer limit reached") { document.write("لقد استغرقت كامل رصيد الانترنت الخاص بهذا الكرت"); }
+                    else if(error.search("uptime limit reached") != -1) { document.write("انتهى رصيـد هذا الكرت"); }
+                    else document.write("$(error) ");
+                    //-->
+                    </script>
+                    $(endif)
+                </div>
+                <label for="close-toggle" class="error-popup-close">موافق</label>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 8. شريط التنقل السفلي العائم (Floating Bottom Dock) المطابق 100% للصورة المرفقة -->
+    <nav class="app-bottom-dock">
+        <a href="login.html" class="dock-tab active">
+            <div class="dock-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+            </div>
+            <div>الرئيسية</div>
+        </a>
+        <button type="button" class="dock-tab" onclick="openPosModal('prices')">
+            <div class="dock-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="5" width="20" height="14" rx="2"/>
+                    <line x1="2" y1="10" x2="22" y2="10"/>
+                </svg>
+            </div>
+            <div>الأسعار</div>
+        </button>
+        <a href="login.html" class="dock-center-fab" title="فحص الواي فاي">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
+                <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+                <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+                <line x1="12" y1="20" x2="12.01" y2="20"/>
+            </svg>
+        </a>
+        <button type="button" class="dock-tab" onclick="openPosModal('pos')">
+            <div class="dock-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                </svg>
+            </div>
+            <div>نقاط البيع</div>
+        </button>
+        <button type="button" class="dock-tab" onclick="openPosModal('offers')">
+            <div class="dock-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+            </div>
+            <div>العروض</div>
+        </button>
+    </nav>
+
+    <!-- 9. نافذة نقاط البيع والعروض والأسعار المنبثقة المطابقة للصورة 1 -->
+    <div id="posModal" class="pos-modal-overlay">
+        <div class="pos-modal-box">
+            <div class="pos-header">
+                <div class="pos-title" id="posModalTitle">
+                    <span style="color:#007aff;">📍</span>
+                    <span>نقاط البيع والتوزيع</span>
+                </div>
+                <button type="button" class="pos-close-btn" onclick="closePosModal()">× إغلاق</button>
+            </div>
+            <div class="pos-content-card" id="posModalBody">
+                <div style="display:flex; align-items:center; justify-content:center; gap:8px;">
+                    <span style="color:#007aff; font-size:18px;">📍</span>
+                    <span>جميع البقالات والمحلات المجاورة للشبكة</span>
+                </div>
+            </div>
+            <button type="button" class="pos-return-btn" onclick="closePosModal()">➔ رجوع</button>
+            <div>
+                <a href="tel:781172077" class="pos-support-line">
+                    <span>📞</span>
+                    <span>خدمة العملاء: 781172077</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressbar"></div>
+    </div>
+
+    <!-- سكربتات التحكم والمنطق البرمجي المتوافقة بالكامل -->
+    <script type="text/javascript">
+    var hostname = window.location.hostname;
+    if (document.getElementById('title')) {
+        document.getElementById('title').innerHTML = "شبكة السريع نت";
+    }
+
+    if (document.login && document.login.username) {
+        document.login.username.focus();
+        var username = document.login.username;
+        var password = document.login.password;
+        username.placeholder = "ادخل رقم الكرت هنا";
+
+        function setpass() {
+            var user = username.value;
+            username.value = user;
+            if (password) password.value = user;
+            var pw2 = document.getElementById('passw');
+            if (pw2) pw2.value = user;
+        }
+        username.onkeyup = setpass;
+    }
+
+    function voucher() {
+        if (username) {
+            username.focus();
+            username.onkeyup = setpass;
+            username.placeholder = "ادخل رقم الكرت هنا";
+        }
+    }
+
+    function member() {
+        if (username) {
+            username.focus();
+            username.placeholder = "اسم المستخدم";
+        }
+    }
+
+    function myFunction() {
+        var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        var scrolled = (winScroll / height) * 100;
+        var pb = document.getElementById("progressbar");
+        if (pb) pb.style.width = scrolled + "%";
+    }
+    window.addEventListener("scroll", myFunction);
+
+    function doLogin() {
+        if (document.forms['login']) document.forms['login'].submit();
+        return false;
+    }
+
+    function hamza() { return true; }
+    function delrem() { return true; }
+    function refrClock() { return true; }
+    function toggle() { return true; }
+
+    // دوال حفظ الكروت
+    function saveVoucher() {
+        if (!document.forms['login'] || !document.forms['login']['uname']) return;
+        var uname = document.forms['login']['uname'].value.trim();
+        if (uname) {
+            var vouchers = JSON.parse(localStorage.getItem('savedVouchers')) || [];
+            vouchers = vouchers.filter(function(item) {
+                return (typeof item === 'object' ? item.code : item) !== uname;
+            });
+            vouchers.unshift({ code: uname, status: '' });
+            if (vouchers.length > 5) vouchers.pop();
+            localStorage.setItem('savedVouchers', JSON.stringify(vouchers));
+            localStorage.setItem('lastAttemptedVoucher', uname);
+            localStorage.setItem('strict_last_uname', uname);
+        }
+    }
+
+    function saveSpeed() {
+        var speedElement = document.getElementById('speed');
+        if (speedElement) {
+            var speedValue = speedElement.value.trim();
+            if (speedValue) {
+                localStorage.setItem('savedSpeed', speedValue);
+            }
+        }
+    }
+
+    function rem() {
+        saveVoucher();
+        saveSpeed();
+        if (typeof setpass === 'function') setpass();
+        return true;
+    }
+
+    function checkLoginError() {
+        var errorMsg = "";
+        try {
+            if (typeof error !== 'undefined' && error) {
+                errorMsg = error.toString();
+            } else {
+                errorMsg = "$(error)".trim();
+            }
+        } catch(e) { errorMsg = ""; }
+
+        if (!errorMsg || errorMsg === "$(error)" || errorMsg === "") {
+            var errorElement = document.querySelector('.error-popup-msg');
+            if (errorElement) {
+                errorMsg = errorElement.innerText || errorElement.textContent;
+            }
+        }
+        
+        errorMsg = errorMsg ? errorMsg.trim().toLowerCase() : "";
+        var lastVoucher = localStorage.getItem('lastAttemptedVoucher');
+        
+        if (errorMsg && errorMsg !== "" && errorMsg !== "$(error)") {
+            localStorage.setItem('block_auto_login', 'true');
+            if (lastVoucher) {
+                var vouchers = JSON.parse(localStorage.getItem('savedVouchers')) || [];
+                vouchers = vouchers.map(function(item) {
+                    var itemCode = typeof item === 'object' ? item.code : item;
+                    if (itemCode === lastVoucher) {
+                        return { code: itemCode, status: "❌ خطأ" };
+                    }
+                    return typeof item === 'object' ? item : { code: item, status: "" };
+                });
+                localStorage.setItem('savedVouchers', JSON.stringify(vouchers));
+                localStorage.removeItem('lastAttemptedVoucher'); 
+            }
+        } else {
+            localStorage.removeItem('block_auto_login');
+            localStorage.removeItem('lastAttemptedVoucher');
+        }
+    }
+
+    function loadVoucherDropdown() {
+        checkLoginError();
+        var vouchers = JSON.parse(localStorage.getItem('savedVouchers')) || [];
+        var dropdown = document.getElementById('voucherDropdown');
+        if (dropdown) {
+            dropdown.innerHTML = '<option value="">آخر ارقام كروت سابقة</option>';
+            vouchers.forEach(function(item) {
+                var code = typeof item === 'object' ? item.code : item;
+                var status = typeof item === 'object' ? item.status : '';
+                if (code) {
+                    var option = document.createElement('option');
+                    option.value = code;
+                    option.text = status ? code + " (" + status + ")" : code;
+                    dropdown.appendChild(option);
+                }
+            });
+        }
+
+        // استعادة السرعة المحفوظة
+        var savedSpeed = localStorage.getItem('savedSpeed');
+        if (savedSpeed) {
+            var sel = document.getElementById('speed');
+            if (sel) sel.value = savedSpeed;
+            if (savedSpeed === 'ss1ss2ss3ss5ss7-ss') {
+                setSpeedProfile('ss1ss2ss3ss5ss7-ss', document.getElementById('pill512'), '512 كيلو');
+            } else if (savedSpeed === 'bb1bb2bb3bb4bb5-bb') {
+                setSpeedProfile('bb1bb2bb3bb4bb5-bb', document.getElementById('pill1M'), '1 ميجا');
+            }
+        }
+    }
+
+    function selectVoucher(dropdown) {
+        var selectedVal = dropdown.value;
+        if (selectedVal && document.forms['login'] && document.forms['login']['uname']) {
+            document.forms['login']['uname'].value = selectedVal;
+            if (typeof setpass === 'function') setpass();
+            localStorage.removeItem('block_auto_login');
+            dropdown.style.display = 'none';
+        }
+    }
+
+    // التحكم بالسرعة
+    function setSpeedProfile(val, btn, label) {
+        var sel = document.getElementById('speed');
+        if (sel) {
+            sel.value = val;
+            saveSpeed();
+        }
+        var pills = document.querySelectorAll('.speed-pill-btn');
+        for (var i = 0; i < pills.length; i++) pills[i].classList.remove('active');
+        if (btn) btn.classList.add('active');
+        if (label) {
+            var badge = document.getElementById('speedBadge');
+            if (badge) badge.innerText = label;
+        }
+    }
+
+    function toggleVoucherDropdown() {
+        var dd = document.getElementById('voucherDropdown');
+        if (dd) {
+            if (dd.style.display === 'none' || !dd.style.display) {
+                dd.style.display = 'block';
+                dd.focus();
+            } else {
+                dd.style.display = 'none';
+            }
+        }
+    }
+
+    function openPosModal(type) {
+        var modal = document.getElementById('posModal');
+        var title = document.getElementById('posModalTitle');
+        var body = document.getElementById('posModalBody');
+        if (type === 'prices') {
+            title.innerHTML = '<span style="color:#007aff;">💳</span><span>باقات وأسعار الكروت</span>';
+            body.innerHTML = '<div style="line-height:2; font-weight:700;">• كرت 100 ريال: 300 ميجا (24 ساعة)<br>• كرت 250 ريال: 1150 ميجا (50 ساعة)<br>• كرت 500 ريال: 2500 ميجا (10 أيام)</div>';
+        } else if (type === 'offers') {
+            title.innerHTML = '<span style="color:#007aff;">⭐</span><span>العروض الخاصة والخصومات</span>';
+            body.innerHTML = '<div style="line-height:2; font-weight:700;">🎁 سرعة مضاعفة مجانية خلال أوقات الفجر<br>🎉 رصيد إضافي 20% عند شراء باقات الشهر</div>';
+        } else {
+            title.innerHTML = '<span style="color:#007aff;">📍</span><span>نقاط البيع والتوزيع</span>';
+            body.innerHTML = '<div style="display:flex; align-items:center; justify-content:center; gap:8px;"><span style="color:#007aff; font-size:18px;">📍</span><span>جميع البقالات والمحلات المجاورة للشبكة</span></div>';
+        }
+        if (modal) modal.classList.add('active');
+    }
+
+    function closePosModal() {
+        var modal = document.getElementById('posModal');
+        if (modal) modal.classList.remove('active');
+    }
+    </script>
 </body>
 
 </html>

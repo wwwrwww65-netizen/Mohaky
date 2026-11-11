@@ -1,485 +1,707 @@
-body {
-  margin-top: 5%; font-family: -apple-system, BlinkMacSystemFont, "segoe ui", Verdana, Roboto, "helvetica neue", Arial, sans-serif, "apple color emoji";
-  font-size: 14px; 
-  color: white;
-    font-color: #ffffff; color: #f2f2f2;
-  padding: 0;
-  background: linear-gradient(to right, #0451aa 0, #023184 56%, #00579e 100%); 
+/* ==========================================================================
+   شبكة السريع نت - Modern Mobile App Hotspot Stylesheet
+   مطابق تماماً بنسبة 100% لصورة التطبيق المرفقة (photo_5992130117464952446_x.jpg)
+   حماية تامة لكافة متغيرات المايكروتك والسكربتات والـ IDs
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. المتغيرات اللونية (Design Tokens)
+   -------------------------------------------------------------------------- */
+:root {
+  --bg-page: #edf6fe;
+  --bg-gradient: linear-gradient(180deg, #dcf0ff 0%, #edf6fe 160px, #f5f9ff 100%);
+  --card-bg: #ffffff;
+  --card-border: #e1eeff;
+  --card-shadow: 0 4px 18px rgba(0, 80, 180, 0.05);
+  --primary-blue: #007aff;
+  --primary-dark-blue: #0056cb;
+  --primary-gradient: linear-gradient(135deg, #007aff 0%, #0056cb 100%);
+  --text-brand: #0b3875;
+  --text-sub: #007aff;
+  --text-muted: #64748b;
+  --text-main: #1e293b;
+  --pill-border: #dbeafe;
 }
 
+/* --------------------------------------------------------------------------
+   2. الإعدادات الأساسية (Reset & Base)
+   -------------------------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  font-size: 15px;
+  line-height: 1.5;
+  direction: rtl;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Cairo", "Tajawal", Roboto, Tahoma, Arial, sans-serif;
+  min-height: 100vh;
+  background-color: var(--bg-page);
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text-main);
+  text-align: center;
+  padding: 14px 14px 95px;
+  margin: 0 auto;
+  max-width: 412px;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* شريط التقدم اللحظي العلوي */
 .progress-container {
   width: 100%;
   height: 3px;
-  background: #00796B;
+  background: transparent;
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 9999
+  z-index: 99999;
 }
 
 .progress-bar {
   height: 3px;
-  background: #76FF03;
-  width: 0%
+  background: linear-gradient(90deg, #007aff, #00ff87);
+  width: 0%;
+  transition: width 0.15s ease;
 }
-/*
-.accordion {
-  background-color: #eee;
-  color: #444;
-  cursor: pointer;
-  padding: 18px;
+
+/* الحاوية الرئيسية للتطبيق */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   width: 100%;
-  border: none;
-  text-align: left;
-  outline: none;
-  font-size: 15px;
-  transition: 0.4s;
-}*/
-
-.accordion{
-  border: none;
-  border-radius:6px;
-  color: #595959;
-  font-weight: bold;
-  text-align: center;
-  vertical-align: middle;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  width: 70%;
-  height: 40px;
-  -webkit-transition-duration: 0.4s; /* Safari */
-  transition-duration: 0.4s;
-  background-color: white; 
-  color: black; 
-  border: 2px solid #4CAF50;}
-
-.active, .accordion:hover {
-  background-color: #4CAF50; /* Green */
-  color: white;
+  margin: 0 auto;
 }
 
-.panel {
-  padding: 0 18px;
-  /*background-color: white;*/
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.2s ease-out;
-}
-
-@font-face {
-  font-family: 'fontello';
-  src: url('./font/fontello.eot?78273339');
-  src: url('./font/fontello.eot?78273339#iefix') format('embedded-opentype'),
-       url('./font/fontello.woff?78273339') format('woff'),
-       url('./font/fontello.ttf?78273339') format('truetype'),
-       url('./font/fontello.svg?78273339#fontello') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
- 
- 
-.icon
-{
-  font-family: "fontello";
-  font-style: normal;
-  font-weight: normal;
-  speak: none;
-  display: inline-block;
-  text-decoration: inherit;
-  width: 1em;
-  margin-right: .2em;
-  text-align: center;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1em;
-  margin-left: .2em;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-iframe  {
-  float:left; 
-  height:22px; 
-  width:100%;
-}
-.main{
-  /*background: #3B5998;
-  color: #f2f2f2;*/
-  background: #2b0c93;
-  background: -moz-linear-gradient(left,#2b0c93 0,#a54098 56%,#f84272 100%);
-  background: -webkit-linear-gradient(left,#2b0c93 0,#a54098 56%,#f84272 100%);
-  background: linear-gradient(to right,#2b0c93 0,#000 56%,#0064ff 100%);
-
-  
-  height: 100%;
-  border-radius:5px;
-  padding: 10px;
-  margin-top: 10%;
-  margin-left:auto;
-  margin-right:auto;
-  transition: 0.3s;
-  text-align:center;
-  min-height:300px;
-  animation: fadein 1s;
-  -moz-animation: fadein 1s; /* Firefox */
-  -webkit-animation: fadein 1s; /* Safari and Chrome */
-  -o-animation: fadein 1s; /* Opera */
-}
-
-.box{
-  margin-bottom:10px;
-  text-align:center;
-  
-}
-
-.brand{
-  color:#ffffff;
-  padding:0px;
-  margin:10px;
-  font-size:35px;
-  border-bottom: solid 3px ;
-  border-image-source: linear-gradient(45deg, rgb(255,255,255), rgb(255,255,255));
-  border-image-slice: 1;
-
-}
-
-.username {
-  background-color: #FDFBFB;
-  border: none;
-  border-radius:20px;
-  border-bottom: 1px solid #f2f2f2;
-  text-align:center;
-  font-size: 16px;
-  color: #000000;
-  outline: none;
-  width: 70%;
-  height: 35px;
-}
-
-.password {
-  background-color: #FDFBFB;
-  border: none;
-  border-radius:0px 0px 3px 3px;
-  border-top: 1px solid #f2f2f2;
-  text-align:center;
-  font-size: 16px;
-  color: #000000;
-  outline: none;
+/* --------------------------------------------------------------------------
+   3. البطاقات البيضاء العصرية (App Cards)
+   -------------------------------------------------------------------------- */
+.app-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 22px;
+  box-shadow: var(--card-shadow);
+  padding: 16px 14px;
   width: 100%;
-  height: 35px;
-}
-
-/*.button {
-  background-color: #2b49ee;
-  background-image: linear-gradient(#d9d9d9, #e6e6e6, #d9d9d9);
-  border: none;
-  border-radius:3px;
-  color: #595959;
-  font-weight: bold;
+  position: relative;
   text-align: center;
-  vertical-align: middle;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  width: 100%;
-  height: 40px;
-}
-.button:hover{
-  font-weight:bold;
-  box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}*/
-
-.button {
-  border: none;
-  border-radius:10px;
-  color: #595959;
-  font-weight: bold;
-  text-align: center;
-  vertical-align: middle;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 18px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  width: 70%;
-  height: 40px;
-  -webkit-transition-duration: 0.4s; /* Safari */
-  transition-duration: 0.4s;
-  background-color: #075fab; 
-  color: #FFFFFF; 
-  border: 2px solid #4CAF50;
+  box-sizing: border-box;
 }
 
-.button:hover {
-  background-color: #4CAF50; /* Green */
-  color: white;
+/* --------------------------------------------------------------------------
+   4. بطاقة الترويسة العلوية (Top Header Card)
+   -------------------------------------------------------------------------- */
+.header-card {
+  padding: 18px 14px 16px;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.button2 {
-  background-color: #d32f2f;
-  background-image: linear-gradient(#d32f2f, #ef5350, #d32f2f);
-  border: none;
-  border-radius:3px;
-  color: #f2f2f2;
-  font-weight: bold;
-  text-align: center;
-  vertical-align: middle;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  width: 100%;
-  height: 40px;
-}
-.button2:hover{
-  font-weight:bold;
-  box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+.wifi-top-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #eef6ff;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-
-.small-button {
-  background-color: #d9d9d9;
-  background-image: linear-gradient(#d9d9d9, #e6e6e6, #d9d9d9);
-  border: none;
-  border-radius:3px;
-  color: #595959;
-  font-weight: bold;
-  text-align: center;
-  vertical-align: middle;
-  text-decoration: none;
-  display: inline-block;
-  cursor: pointer;
+.wifi-top-icon svg {
+  width: 30px;
   height: 30px;
-  width : 32%;
+  stroke: var(--primary-blue);
 }
 
-.notice{
-  background-color:#fff8e1;
-  border-radius:3px;
-  padding:5px;
-  margin-bottom:10px;
-  font-size:14px;
-  color: #000;
+.brand-title {
+  font-size: 23px;
+  font-weight: 900;
+  color: var(--text-brand);
+  letter-spacing: -0.3px;
+  margin-bottom: 2px;
 }
-.table {
+
+.brand-subtitle {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--text-sub);
+  margin-bottom: 2px;
+}
+
+.brand-tagline {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   5. بطاقة البنر الإعلاني (Banner Card)
+   -------------------------------------------------------------------------- */
+.banner-card {
+  padding: 0 !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  border: 1px solid var(--card-border);
+  box-shadow: 0 4px 16px rgba(0, 80, 180, 0.06);
+  line-height: 0;
+}
+
+.banner-img {
   width: 100%;
-  border-collapse: collapse !important;
-  color: #111412;
-}
-.table td,
-.table th {
-  padding: 5px;
-  border: 2px solid #fff000 !important;
-  color:  #ffffff;
+  height: auto;
+  display: block;
+  border-radius: 18px;
+  object-fit: cover;
 }
 
-.table td, th, a{
-  color: #ffffff;;
+/* --------------------------------------------------------------------------
+   6. شريط التمرير القرآني (Ticker Pill)
+   -------------------------------------------------------------------------- */
+.ticker-pill-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0, 80, 180, 0.04);
+  padding: 9px 14px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.ticker-pill-card marquee {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 800;
+  color: #0056cb;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* --------------------------------------------------------------------------
+   7. بطاقة اختيار السرعة (Speed Selector Card)
+   -------------------------------------------------------------------------- */
+.speed-card {
+  padding: 14px;
+  border-radius: 20px;
+}
+
+.speed-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding: 0 2px;
+}
+
+.speed-header-title {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--text-brand);
+}
+
+.speed-status-badge {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--primary-blue);
+  background: #f0f7ff;
+  border: 1px solid #d8ecfe;
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+
+.speed-pills-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+
+.speed-pill-btn {
+  flex: 1;
+  height: 38px;
+  border-radius: 20px;
+  border: 1.5px solid var(--pill-border);
+  background: var(--card-bg);
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.speed-pill-btn:hover {
+  border-color: var(--primary-blue);
+  color: var(--primary-blue);
+}
+
+.speed-pill-btn.active {
+  background: var(--primary-blue) !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+  box-shadow: 0 4px 14px rgba(0, 122, 255, 0.35);
+}
+
+/* --------------------------------------------------------------------------
+   8. بطاقة إدخال رقم الكرت (Voucher Input Card)
+   -------------------------------------------------------------------------- */
+.voucher-card {
+  padding: 16px 14px 14px;
+  border-radius: 22px;
+}
+
+.voucher-card-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-brand);
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.voucher-input-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border: 1.5px solid #cfe2fe;
+  border-radius: 14px;
+  padding: 4px 6px;
+  height: 50px;
+  box-shadow: 0 2px 6px rgba(0, 80, 180, 0.03) inset;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.voucher-input-box:focus-within {
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15);
+}
+
+.voucher-prev-btn {
+  background: #eef6ff;
+  border: none;
+  color: var(--primary-blue);
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease;
+}
+
+.voucher-prev-btn:hover {
+  background: #dcecfe;
+}
+
+.voucher-input-field {
+  flex: 1;
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-size: 16.5px;
+  font-weight: 800;
+  color: var(--text-brand);
+  outline: none;
+  padding: 0 8px;
+  letter-spacing: 0.5px;
+}
+
+.voucher-input-field::placeholder {
+  color: #94a3b8;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.voucher-card-icon {
+  width: 28px;
+  height: 28px;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 4px;
+}
+
+.voucher-card-icon svg {
+  width: 22px;
+  height: 22px;
+  stroke: #94a3b8;
+}
+
+/* القائمة المنسدلة للكروت السابقة */
+.saved-vouchers-select {
+  width: 100%;
+  height: 42px;
+  background-color: #f8fbff;
+  color: var(--primary-blue);
+  border: 1.5px solid #cce3fe;
+  border-radius: 12px;
+  padding: 0 12px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 10px;
+  outline: none;
+  cursor: pointer;
+}
+
+/* --------------------------------------------------------------------------
+   9. زر تسجيل الدخول الأساسي (Primary Submit Button)
+   -------------------------------------------------------------------------- */
+.main-login-btn {
+  width: 100%;
+  height: 50px;
+  background: var(--primary-gradient);
+  color: #ffffff;
+  border: none;
+  border-radius: 16px;
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 8px 24px rgba(0, 122, 255, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0.3px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.main-login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0, 122, 255, 0.45);
+}
+
+.main-login-btn:active {
+  transform: translateY(1px);
+}
+
+/* --------------------------------------------------------------------------
+   10. بطاقة خدمة العملاء (Customer Support Card)
+   -------------------------------------------------------------------------- */
+.support-card {
+  padding: 15px 14px;
+  border-radius: 20px;
+}
+
+.support-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--text-brand);
+  margin-bottom: 12px;
+}
+
+.support-actions-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+}
+
+.support-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 6px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform 0.15s ease;
+}
+
+.support-action-btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-support-whatsapp {
+  background: #f0fdf4;
+  color: #16a34a;
+  border: 1.5px solid #bbf7d0;
+}
+
+.btn-support-phone {
+  background: #f0f7ff;
+  color: var(--primary-blue);
+  border: 1.5px solid #cce3fe;
+}
+
+/* --------------------------------------------------------------------------
+   11. شريط التنقل السفلي العائم (Floating Bottom Navigation Dock)
+   -------------------------------------------------------------------------- */
+.app-bottom-dock {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 68px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(0, 114, 255, 0.12);
+  border-radius: 24px 24px 0 0;
+  box-shadow: 0 -4px 20px rgba(0, 80, 180, 0.08);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 8px;
+  max-width: 412px;
+  margin: 0 auto;
+}
+
+.dock-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  flex: 1;
+  height: 100%;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  padding: 6px 4px;
+  border-radius: 12px;
+  transition: all 0.15s ease;
+}
+
+.dock-tab.active {
+  color: var(--primary-blue);
+  background: #eaf3fe;
+}
+
+.dock-icon {
+  font-size: 19px;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dock-icon svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+}
+
+/* الزر المركزي البارز المتوهج (Center Floating Wi-Fi FAB) */
+.dock-center-fab {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--primary-gradient);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  border: 4px solid #ffffff;
+  box-shadow: 0 8px 22px rgba(0, 122, 255, 0.45);
+  transform: translateY(-16px);
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dock-center-fab:hover, .dock-center-fab:active {
+  transform: translateY(-19px) scale(1.05);
+  box-shadow: 0 12px 28px rgba(0, 122, 255, 0.55);
+}
+
+.dock-center-fab svg {
+  width: 26px;
+  height: 26px;
+  stroke: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   12. نافذة نقاط البيع والأسعار المنبثقة (Modal Dialog)
+   -------------------------------------------------------------------------- */
+.pos-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 25, 50, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 99999;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.pos-modal-overlay.active {
+  display: flex;
+}
+
+.pos-modal-box {
+  background: #ffffff;
+  border: 1px solid var(--card-border);
+  border-radius: 26px;
+  padding: 24px 20px;
+  width: 92%;
+  max-width: 380px;
+  box-shadow: 0 20px 50px rgba(0, 40, 100, 0.25);
+  text-align: center;
+}
+
+.pos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.pos-title {
+  font-size: 16.5px;
+  font-weight: 800;
+  color: var(--text-brand);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pos-close-btn {
+  background: #f0f7ff;
+  border: 1px solid #cce3fe;
+  color: var(--primary-blue);
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pos-content-card {
+  background: #f8fbff;
+  border: 1.5px solid #dceeff;
+  border-radius: 16px;
+  padding: 20px 14px;
+  margin-bottom: 20px;
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--text-brand);
+}
+
+.pos-return-btn {
+  width: 100%;
+  height: 48px;
+  background: var(--primary-gradient);
+  color: #ffffff;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  margin-bottom: 14px;
+  box-shadow: 0 6px 18px rgba(0, 122, 255, 0.3);
+}
+
+.pos-support-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #0056cb;
+  border: 1.5px solid #cce3fe;
+  padding: 8px 18px;
+  border-radius: 25px;
   text-decoration: none;
 }
 
-.table2 {
-  width: 100%;
-  border-collapse: collapse !important;
-  background-color: #fff;
-  text-align:left;
-}
-.table2 td,
-.table2 th {
-  padding: 5px;
-  border: 1px solid #000 !important;
-}
-
-.table2 td, th, a{
- color: #101010;
-  text-decoration: none;
-}
-
-@keyframes fadein {
-  from {opacity:0;}
-  to {opacity: 1;}
-}
-@-moz-keyframes fadein { /* Firefox */
-  from {opacity:0;}
-  to {opacity: 1;}
-}
-@-webkit-keyframes fadein { /* Safari and Chrome */
-  from {opacity:0;}
-  to {opacity: 1;}
-}
-@-o-keyframes fadein { /* Opera */
-  from {opacity:0;}
-  to {opacity: 1;}
+/* --------------------------------------------------------------------------
+   13. نافذة الخطأ المنبثقة للمايكروتك (Error Popup)
+   -------------------------------------------------------------------------- */
+.error-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 25, 50, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999999;
+  padding: 20px;
 }
 
-/* @media */
-@media screen and (max-width: 600px) {
-  .main{
-	width:90%;
-    margin-top: 10%;
-}}
-
-/* @media */
-@media screen and (min-width: 600px) {
-  .main{
-	margin-top: 2%;
-}}
-
-
-#speed{
-    width: 70%;
-   
-    height: 44px;
-    padding: 3px 20px 3px 40px;
-    margin-bottom: 20px;
-   border-radius: 20px;
-    background-color: rgb(255, 255, 255);
-    -webkit-transition: -webkit-box-shadow .3s ease-in-out;
-    transition: -webkit-box-shadow .3s ease-in-out;
-    transition: box-shadow .3s ease-in-out;
-    transition: box-shadow .3s ease-in-out,-webkit-box-shadow .3s ease-in-out;
-text-align: center;
+.error-popup-box {
+  background: #ffffff;
+  border: 1px solid var(--card-border);
+  padding: 26px 20px;
+  border-radius: 22px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  max-width: 360px;
+  width: 90%;
+  text-align: center;
 }
 
-.shadow {
-    
-   
-    padding: 0px;
-    
-  
-
-}
-.alll {
-    
-   
-
-    background-color: rgba(0, 198, 255, 0.1);
-   border: 1px solid rgb(0 198 255);
-    padding: 15px;
-    border-radius: 12px;
-    
-  
-
+.error-popup-icon { font-size: 44px; margin-bottom: 10px; }
+.error-popup-msg {
+  color: var(--text-main);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.6;
+  margin-bottom: 20px;
 }
 
-.alll1 {
-    
-   
-    
-    background-color: rgba(0, 198, 255, 0.1);
-   border: 1px solid rgb(0 198 255);
-    padding: 15px;
-    border-radius: 12px;
-    
-  
-
+.error-popup-close {
+  background: var(--primary-gradient);
+  color: #ffffff;
+  padding: 10px 32px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 14.5px;
+  font-weight: 800;
+  display: inline-block;
+  box-shadow: 0 4px 15px rgba(0, 122, 255, 0.35);
 }
 
-.alll2 {
-    
-   
-    
-    background-color: rgba(0, 198, 255, 0.1);
-    border: 1px solid rgb(0 198 255);
-    padding: 15px;
-    border-radius: 12px;
-    
-  
-
+#close-toggle { display: none; }
+#close-toggle:checked ~ .error-popup-overlay {
+  display: none !important;
 }
 
-.banner {
-    width: 70%;
-  
-    text-align: center;
-    
-    position: relative;
-
+/* إخفاء العناصر القديمة للمايكروتك بدون التأثير على منطق العمل */
+.buttons-container,
+.main1::before,
+.text-3d,
+.alll1,
+.alll2,
+center > img[src="1.png"],
+.box {
+  display: none !important;
 }
-
-/* تهيئة البيئة ثلاثية الأبعاد */
-.banner .slider {
-   
-    width: 80px;
-    height: 100px;
-  
- 
-    transform-style: preserve-3d;
-    transform: perspective(1000px);
-    animation: autoRun 20s linear infinite;
-
-
-}
-
-/* حركة الدوران المستمرة للمنزلق الكامل */
-@keyframes autoRun {
-    from {
-        transform: perspective(1000px) rotateX(-10deg) rotateY(0deg);
-    }
-    to {
-        transform: perspective(1000px) rotateX(-10deg) rotateY(360deg);
-    }
-}
-
-/* توزيع عناصر الصور بشكل دائري معتمد على الحسابات الرياضية */
-.banner .slider .item {
-    position: absolute;
-    inset: 0 0 0 0;
-    transform: 
-        rotateY(calc( (var(--position) - 1) * (360deg / var(--quantity)) ))
-        translateZ(100px); /* المسافة من مركز الدائرة إلى الخارج */
-}
-
-.banner .slider .item img {
-    width: 100%;
-    height: 50%;
-    object-fit: cover;
-    border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-
-}
-
-.text-3d {
-margin: 10px;
-    font-size: 35px;
-    color: #0f0b4b;
-
-    /* text-transform: uppercase; */
-    /* letter-spacing: 2px; */
-    text-shadow: 1px 1px 0px #d35400, 2px 2px 0px #00c5ff, 3px 3px 0px #00d0ff, 4px 4px 0px #06f6e7, 5px 5px 0px #02c1ff, 6px 6px 0px #00daff, 7px 7px 8px rgb(0 255 90);
-}
-  select {
-            width: 70%;
-margin: 5px;
-            text-align: center;
-            padding: 10px;
-            font-size: 16px;
-            border: 2px solid #3498db;
-            border-radius: 20px;
-            background-color: #f9f9f9;
-            color: #333;
-            cursor: pointer;
-        }
-
-        /* تنسيق الخيارات الداخلي (دعم محدود) */
-        option {
-            background-color: #ffffff;
-            color: #333;
-            padding: 10px; /* قد لا يعمل في بعض المتصفحات القديمة */
-        }
-
-        /* تنسيق خيار معين عند تعطيله */
-        option:disabled {
-            color: #ccc;
-        }
-

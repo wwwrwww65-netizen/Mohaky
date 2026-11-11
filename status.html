@@ -2,248 +2,577 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تفاصيل الحساب والتحكم بالسرعة</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>شبكة السريع نت > حالة الاتصال</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(269deg, #08a3e4, #014c78, #2c5364);
-            min-height: 100vh;
+        /* أنماط صفحة الحالة المتوافقة 100% مع الصورة 3 (photo_5992130117464952511_x_8e1c9187.jpg) */
+        .status-container {
+            max-width: 412px;
+            margin: 0 auto;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #fff;
-            padding: 20px;
-        }
-        .status-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 30px;
+            flex-direction: column;
+            gap: 12px;
             width: 100%;
-            max-width: 480px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            text-align: center;
         }
-        .status-card h2 { margin-bottom: 20px; color: #00c6ff; font-size: 1.5rem; }
-        .details-grid {
+
+        /* 1. بطاقة النجاح العلوية */
+        .status-success-card {
+            background: #ffffff;
+            border: 1px solid #e1eeff;
+            border-radius: 22px;
+            padding: 18px 14px 16px;
+            text-align: center;
+            box-shadow: 0 4px 18px rgba(0, 80, 180, 0.05);
+        }
+
+        .connected-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #e6fcf5;
+            color: #0ca678;
+            border: 1px solid #c3fae8;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .status-success-title {
+            font-size: 20px;
+            font-weight: 900;
+            color: #0b3875;
+            margin-bottom: 4px;
+        }
+
+        .status-success-sub {
+            font-size: 12.5px;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .status-success-sub a {
+            color: #007aff;
+            font-weight: 800;
+            text-decoration: underline;
+        }
+
+        /* 2. زر البث المباشر */
+        .live-stream-btn {
+            width: 100%;
+            height: 46px;
+            background: #ffffff;
+            border: 1px solid #e1eeff;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: #007aff;
+            font-weight: 800;
+            font-size: 14.5px;
+            box-shadow: 0 2px 10px rgba(0, 80, 180, 0.04);
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.15s ease;
+        }
+
+        .live-stream-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        /* 3. بطاقة العداد المقوس (Gauge Card) */
+        .gauge-card {
+            background: #ffffff;
+            border: 1px solid #e1eeff;
+            border-radius: 22px;
+            padding: 22px 14px 18px;
+            text-align: center;
+            box-shadow: 0 4px 18px rgba(0, 80, 180, 0.05);
+            position: relative;
+        }
+
+        .gauge-wrap {
+            position: relative;
+            width: 220px;
+            height: 125px;
+            margin: 0 auto 10px;
+        }
+
+        .gauge-svg {
+            width: 220px;
+            height: 125px;
+            overflow: visible;
+        }
+
+        .gauge-content-center {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gauge-header-label {
+            font-size: 13px;
+            font-weight: 800;
+            color: #0b3875;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 2px;
+        }
+
+        .gauge-main-value {
+            font-size: 24px;
+            font-weight: 900;
+            color: #0b3875;
+            letter-spacing: -0.3px;
+            line-height: 1.2;
+        }
+
+        .gauge-percent-pill {
+            background: #e6fcf5;
+            color: #0ca678;
+            border: 1px solid #c3fae8;
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 800;
+            margin-top: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .gauge-scale-labels {
+            display: flex;
+            justify-content: space-between;
+            width: 200px;
+            margin: 0 auto;
+            font-size: 11px;
+            font-weight: 700;
+            color: #94a3b8;
+        }
+
+        /* 4. شبكة البطاقات المزدوجة (Dual Metrics Grid) */
+        .metrics-grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-        .detail-box {
-            background: rgba(255, 255, 255, 0.08);
-            padding: 12px;
-            border-radius: 12px;
-            border: 1px solid rgb(0 255 197);
-        }
-        .remain-box {
-            grid-column: span 2;
-            background: linear-gradient(135deg, rgba(255, 198, 0, 0.2), rgba(255, 141, 0, 0.2));
-            border: 1px solid rgba(255, 198, 0, 0.4);
-        }
-        .speed-control-box {
-            grid-column: span 2;
-            background: rgba(0, 198, 255, 0.1);
-            border: 1px solid rgba(0, 198, 255, 0.3);
-            padding: 15px;
-            border-radius: 12px;
-            text-align: right;
-        }
-        .detail-title {font-size: 14px; color: rgb(0 255 252); margin-bottom: 5px;}
-        .detail-value { font-size: 14px; font-weight: bold; color: #fff; }
-        .remain-box .detail-value { color: #ffc600; font-size: 1.3rem; }
-        
-        .speed-select {
+            gap: 10px;
             width: 100%;
-            padding: 10px;
-            margin-top: 8px;
-            border-radius: 8px;
-            border: 1px solid rgba(255,255,255,0.3);
-            background: #203a43;
-            color: #fff;
-            font-size: 1rem;
-            outline: none;
-            cursor: pointer;
         }
-        .speed-btn {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            border-radius: 8px;
-            border: none;
-            background: linear-gradient(to right, #0072ff, #00c6ff);
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .speed-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 10px rgba(0,198,255,0.3); }
 
-        .logout-btn {
+        .metric-card {
+            background: #ffffff;
+            border: 1px solid #e1eeff;
+            border-radius: 18px;
+            padding: 14px 12px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(0, 80, 180, 0.04);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .metric-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 800;
+            color: #0b3875;
+            margin-bottom: 6px;
+        }
+
+        .metric-card-val {
+            font-size: 17px;
+            font-weight: 900;
+            color: #0b3875;
+            letter-spacing: -0.2px;
+            margin-bottom: 8px;
+        }
+
+        .metric-progress-track {
             width: 100%;
-            padding: 12px;
+            height: 6px;
+            background: #eef4fc;
             border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .metric-progress-fill-blue {
+            height: 100%;
+            width: 78%;
+            background: linear-gradient(90deg, #007aff, #38bdf8);
+            border-radius: 10px;
+        }
+
+        .metric-progress-fill-green {
+            height: 100%;
+            width: 35%;
+            background: linear-gradient(90deg, #10b981, #34d399);
+            border-radius: 10px;
+        }
+
+        /* 5. بطاقات الوقت المزدوجة */
+        .time-value-highlight {
+            color: #f59e0b !important;
+        }
+
+        /* 6. أزرار التحكم بالاتصال المزدوجة (Dual Action Buttons) */
+        .actions-dual-row {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 10px;
+            width: 100%;
+            margin-top: 4px;
+        }
+
+        .btn-status-logout {
+            height: 48px;
+            background: var(--primary-gradient);
+            color: #ffffff;
             border: none;
-            background: linear-gradient(to right, #ff416c, #ff4b2b);
-            color: #fff;
-            font-size: 1rem;
-            font-weight: bold;
+            border-radius: 14px;
+            font-size: 15.5px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
             cursor: pointer;
-            transition: 0.3s;
+            box-shadow: 0 6px 18px rgba(0, 122, 255, 0.35);
+            transition: transform 0.15s ease;
+            text-decoration: none;
+        }
+
+        .btn-status-logout:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-status-disconnect {
+            height: 48px;
+            background: #eef6ff;
+            color: #007aff;
+            border: 1.5px solid #cfe2fe;
+            border-radius: 14px;
+            font-size: 14.5px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: transform 0.15s ease;
+            text-decoration: none;
+        }
+
+        .btn-status-disconnect:hover {
+            transform: translateY(-1px);
         }
     </style>
 </head>
 <body>
 
-    <div class="status-card">
-        <h2>تفاصيل الحساب والتحكم بالسرعة</h2>
-        
-        <div class="details-grid">
-            <div class="detail-box">
-                <div class="detail-title">اسم المستخدم</div>
-                <div class="detail-value" id="masked-user">جاري التحميل...</div>
-            </div>
-            <div class="detail-box">
-                <div class="detail-title">حالة حسابك</div>
-                <div class="detail-value" style="color: #00ff87;">نشط</div>
-            </div>
-            
-            <div class="detail-box remain-box">
-                <div class="detail-title">التحميل المتبقي (الرصيد)</div>
-                <div class="detail-value" id="remain-bytes">جاري الحساب...</div>
-            </div>
+    <div class="status-container">
 
-            <div class="detail-box">
-                <div class="detail-title">حجم التحميل (Download)</div>
-                <div class="detail-value" style="color: #00c6ff;">$(bytes-out-nice)</div>
+        <!-- 1. بطاقة نجاح تسجيل الدخول المطابقة تماماً للصورة 3 -->
+        <div class="status-success-card">
+            <div class="connected-badge">
+                <span style="color:#0ca678; font-size: 11px;">●</span>
+                <span>متصل بالإنترنت الآن</span>
+                <span>📶</span>
             </div>
-            <div class="detail-box">
-                <div class="detail-title">حجم الرفع (Upload)</div>
-                <div class="detail-value" style="color: #ff9f43;">$(bytes-in-nice)</div>
+            <h1 class="status-success-title">تم تسجيل دخولك بنجاح!</h1>
+            <div class="status-success-sub">
+                إذا لم يتم الاتصال تلقائياً <a href="status.html">اضغط هنا</a>
             </div>
-
-            <div class="detail-box">
-                <div class="detail-title">الوقت المستهلك (Uptime)</div>
-                <div class="detail-value">$(uptime)</div>
-            </div>
-            <div class="detail-box">
-                <div class="detail-title">الوقت المتبقي</div>
-                <div class="detail-value">$(session-time-left)</div>
-            </div>
-
-      <!-- نموذج تغيير السرعة المطور لحل مشكلة التوجيه الخارجي -->
-<div class="speed-control-box">
-    <div class="detail-title" style="color: #00c6ff; font-weight: bold;">تعديل سرعة الإنترنت فوراً:</div>
-    
-    <form id="speed-change-form">
-        <input type="hidden" name="erase-cookie" value="true">
-        
-        <select name="dst" id="speed-select" class="speed-select" required>
-            <option value="" disabled selected>اختر السرعة المطلوبة...</option>
-            <option value="4a4b4c4d4e4f4g-44f">سرعة اقتصادية </option>
-            <option value="9a9b9c9d9e9f9-99-ba">سرعة فائقة</option>
-            <option value="8a8b8c8d8e8f8g8h8i-55-sa">السرعة القصوى </option>
-        </select>
-        <button type="submit" class="speed-btn">تحديث السرعة وإعادة الاتصال</button>
-    </form>
-</div>
-
         </div>
 
-        <!-- نموذج تسجيل الخروج الفعلي: تم ربطه بسكربت ذكي يحول العميل إلى index.html بعد قطع الاتصال -->
-        <form action="$(link-logout)" name="logout" id="actual-logout-form">
-            <!-- تمت إزالة وسم التوجيه الافتراضي وتعديل السلوك عبر الجافاسكربت بالأسفل -->
-            <button type="submit" class="logout-btn">إنهاء الاتصال</button>
-        </form>
+        <!-- 2. الشريط القرآني الإخباري -->
+        <div class="ticker-pill-card">
+            <marquee direction="right" scrollamount="4">بسم الله الرحمن الرحيم { قل للمؤمنين يغضوا من أبصارهم ويحفظوا فروجهم ذلك أزكى لهم إن الله خبير بما يصنعون }</marquee>
+        </div>
+
+        <!-- 3. زر البث المباشر والاستراحة -->
+        <a href="#" class="live-stream-btn" onclick="openPosModal('live'); return false;">
+            <span>📺</span>
+            <span>البث المباشر</span>
+        </a>
+
+        <!-- 4. بطاقة العداد المقوس (Gauge Meter Card) -->
+        <div class="gauge-card">
+            <div class="gauge-wrap">
+                <svg class="gauge-svg" viewBox="0 0 220 125">
+                    <!-- مسار الخلفية الرمادي الدائري -->
+                    <path d="M 20 115 A 90 90 0 0 1 200 115" fill="none" stroke="#eef4fc" stroke-width="14" stroke-linecap="round"/>
+                    <!-- التدرج اللوني اللامع -->
+                    <defs>
+                        <linearGradient id="gaugeGrad" x1="0%" y1="100%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#007aff"/>
+                            <stop offset="50%" stop-color="#10b981"/>
+                            <stop offset="100%" stop-color="#f59e0b"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- مسار القوس الملون الفعلي -->
+                    <path d="M 20 115 A 90 90 0 0 1 170 45" fill="none" stroke="url(#gaugeGrad)" stroke-width="14" stroke-linecap="round"/>
+                </svg>
+                <div class="gauge-content-center">
+                    <div class="gauge-header-label">
+                        <span style="color:#f59e0b;">⬡</span>
+                        <span>الرصيد المتبقي</span>
+                    </div>
+                    <div class="gauge-main-value" id="remain-bytes">$(remain-bytes-total-nice)</div>
+                    <div class="gauge-percent-pill">
+                        <span style="color:#0ca678; font-size:10px;">●</span>
+                        <span>المتبقي 79% من الرصيد</span>
+                    </div>
+                </div>
+            </div>
+            <div class="gauge-scale-labels">
+                <span>0%</span>
+                <span>100%</span>
+            </div>
+        </div>
+
+        <!-- 5. شبكة بطاقات التنزيل والرفع (Download & Upload) -->
+        <div class="metrics-grid-2">
+            <!-- بطاقة التنزيل -->
+            <div class="metric-card">
+                <div class="metric-card-header">
+                    <span style="color:#007aff;">⬇️</span>
+                    <span>التنزيل</span>
+                </div>
+                <div class="metric-card-val" style="color: #007aff;">$(bytes-out-nice)</div>
+                <div class="metric-progress-track">
+                    <div class="metric-progress-fill-blue"></div>
+                </div>
+            </div>
+
+            <!-- بطاقة الرفع -->
+            <div class="metric-card">
+                <div class="metric-card-header">
+                    <span style="color:#10b981;">⬆️</span>
+                    <span>الرفع</span>
+                </div>
+                <div class="metric-card-val" style="color: #10b981;">$(bytes-in-nice)</div>
+                <div class="metric-progress-track">
+                    <div class="metric-progress-fill-green"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. شبكة بطاقات الوقت المستهلك والمتبقي -->
+        <div class="metrics-grid-2">
+            <!-- الوقت المستهلك -->
+            <div class="metric-card">
+                <div class="metric-card-header">
+                    <span style="color:#007aff;">🕒</span>
+                    <span>الوقت المستهلك</span>
+                </div>
+                <div class="metric-card-val">$(uptime)</div>
+            </div>
+
+            <!-- الوقت المتبقي -->
+            <div class="metric-card">
+                <div class="metric-card-header">
+                    <span style="color:#f59e0b;">⌛</span>
+                    <span>الوقت المتبقي</span>
+                </div>
+                <div class="metric-card-val time-value-highlight">$(session-time-left)</div>
+            </div>
+        </div>
+
+        <!-- 7. بطاقة تعديل السرعة المباشرة -->
+        <div class="app-card" style="padding: 14px;">
+            <div style="font-size: 13.5px; font-weight: 800; color: #0b3875; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                <span style="color: #007aff;">⚡</span>
+                <span>تعديل سرعة الإنترنت فوراً</span>
+            </div>
+            <form id="speed-change-form" action="$(link-logout)" method="post" style="display: flex; gap: 8px;">
+                <input type="hidden" name="erase-cookie" value="true">
+                <select name="dst" id="speed-select" class="saved-vouchers-select" style="margin-top:0; flex:1;" required>
+                    <option value="" disabled selected>اختر السرعة المطلوبة...</option>
+                    <option value="ss1ss2ss3ss5ss7-ss">512 كيلو</option>
+                    <option value="bb1bb2bb3bb4bb5-bb">1 ميجا</option>
+                    <option value="9a9b9c9d9e9f9-99-ba">سرعة فائقة (6 Mbps)</option>
+                </select>
+                <button type="submit" class="main-login-btn" style="width: auto; padding: 0 16px; height: 42px; font-size: 13.5px;">تحديث</button>
+            </form>
+        </div>
+
+        <!-- 8. أزرار التحكم: تسجيل الخروج وقطع الاتصال -->
+        <div class="actions-dual-row">
+            <form action="$(link-logout)" name="logout" id="actual-logout-form" style="width: 100%;">
+                <input type="hidden" name="erase-cookie" value="true" />
+                <button type="submit" class="btn-status-logout" style="width: 100%;">
+                    <span>➔</span>
+                    <span>تسجيل الخروج</span>
+                </button>
+            </form>
+            <a href="login.html" class="btn-status-disconnect">
+                <span>🔌</span>
+                <span>قطع الاتصال</span>
+            </a>
+        </div>
+
+        <!-- 9. بطاقة خدمة العملاء المزدوجة -->
+        <div class="app-card support-card">
+            <div class="support-header">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#007aff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                <span>خدمة العملاء</span>
+            </div>
+            <div class="support-actions-row">
+                <a href="https://wa.me/967781172077" target="_blank" class="support-action-btn btn-support-whatsapp">
+                    <span>💬</span>
+                    <span>مراسلة واتساب</span>
+                </a>
+                <a href="tel:781172077" class="support-action-btn btn-support-phone">
+                    <span>📞</span>
+                    <span>اتصال هاتفي</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- معرّفات التوافق والمحفظة الأصلية للمايكروتك -->
+        <div id="masked-user" style="display:none;">$(username)</div>
+        <div id="mac" style="display:none;">$(mac)</div>
+        <div id="ip" style="display:none;">$(ip)</div>
+        <div id="walletmain" style="display:none;"></div>
+        <script src="wallet.js" charset="UTF-8" w-code="23526"></script>
+
+    </div>
+
+    <!-- 10. شريط التنقل السفلي العائم (Floating Bottom Dock) المطابق 100% للتطبيق -->
+    <nav class="app-bottom-dock">
+        <a href="status.html" class="dock-tab active">
+            <div class="dock-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+            </div>
+            <div>الرئيسية</div>
+        </a>
+        <button type="button" class="dock-tab" onclick="openPosModal('prices')">
+            <div class="dock-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="5" width="20" height="14" rx="2"/>
+                    <line x1="2" y1="10" x2="22" y2="10"/>
+                </svg>
+            </div>
+            <div>الأسعار</div>
+        </button>
+        <a href="status.html" class="dock-center-fab" title="فحص الواي فاي">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
+                <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+                <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+                <line x1="12" y1="20" x2="12.01" y2="20"/>
+            </svg>
+        </a>
+        <button type="button" class="dock-tab" onclick="openPosModal('pos')">
+            <div class="dock-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                </svg>
+            </div>
+            <div>نقاط البيع</div>
+        </button>
+        <button type="button" class="dock-tab" onclick="openPosModal('offers')">
+            <div class="dock-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+            </div>
+            <div>العروض</div>
+        </button>
+    </nav>
+
+    <!-- 11. نافذة نقاط البيع والعروض المنبثقة -->
+    <div id="posModal" class="pos-modal-overlay">
+        <div class="pos-modal-box">
+            <div class="pos-header">
+                <div class="pos-title" id="posModalTitle">
+                    <span style="color:#007aff;">📍</span>
+                    <span>نقاط البيع والتوزيع</span>
+                </div>
+                <button type="button" class="pos-close-btn" onclick="closePosModal()">× إغلاق</button>
+            </div>
+            <div class="pos-content-card" id="posModalBody">
+                <div style="display:flex; align-items:center; justify-content:center; gap:8px;">
+                    <span style="color:#007aff; font-size:18px;">📍</span>
+                    <span>جميع البقالات والمحلات المجاورة للشبكة</span>
+                </div>
+            </div>
+            <button type="button" class="pos-return-btn" onclick="closePosModal()">➔ رجوع</button>
+            <div>
+                <a href="tel:781172077" class="pos-support-line">
+                    <span>📞</span>
+                    <span>خدمة العملاء: 781172077</span>
+                </a>
+            </div>
+        </div>
     </div>
 
     <script>
-        // اعتراض نموذج إنهاء الاتصال لضمان الخروج الفعلي والتحويل المباشر لـ index.html
-        document.getElementById('actual-logout-form').addEventListener('submit', function(e) {
-            e.preventDefault(); // إيقاف التوجيه التلقائي الإجباري للمايكروتك
-            
-            var logoutUrl = this.getAttribute('action');
-            
-            // إرسال طلب تسجيل الخروج الفعلي للسيرفر عبر الخلفية لقطع الاتصال فوراً
-            fetch(logoutUrl, { method: "POST" })
-            .then(function() {
-                // بعد قطع الاتصال بنجاح، نتوجه فوراً لصفحة تسجيل الدخول index.html والكوكيز آمنة
-                window.location.href = "index.html";
-            })
-            .catch(function() {
-                // احتياطاً في حال حدوث أي مشكلة في الاستجابة
-                window.location.href = "index.html";
-            });
-        });
-
-        // حماية وإخفاء نصف اسم المستخدم
-        (function maskUsername() {
-            var rawUser = "$(username)";
-            if (!rawUser || rawUser.startsWith("$")) {
-                document.getElementById("masked-user").innerText = "مستخدم نشط";
-                return;
-            }
-            var len = rawUser.length;
-            if (len <= 3) {
-                document.getElementById("masked-user").innerText = rawUser + "*".repeat(len - 1);
-            } else {
-                var visibleLen = Math.ceil(len / 2);
-                var maskedPart = "*".repeat(len - visibleLen);
-                document.getElementById("masked-user").innerText = rawUser.substring(0, visibleLen) + maskedPart;
-            }
-        })();
-
-        // حساب التحميل المتبقي
-        var totalBytes = parseInt("$(limit-bytes-total)") || 0;
-        var bytesIn = parseInt("$(bytes-in)") || 0;
-        var bytesOut = parseInt("$(bytes-out)") || 0;
-        var usedBytes = bytesIn + bytesOut;
-
-        function formatBytes(bytes) {
-            if (bytes <= 0) return "غير محدود";
-            var sizes = ['بايت', 'كيلوبايت', 'ميجابايت', 'جيجابايت', 'تيرابايت'];
-            var i = Math.floor(Math.log(bytes) / Math.log(1024));
-            return (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + sizes[i];
-        }
-
-        if (totalBytes > 0) {
-            var remainBytes = totalBytes - usedBytes;
-            if (remainBytes < 0) remainBytes = 0;
-            document.getElementById("remain-bytes").innerText = formatBytes(remainBytes);
+    function openPosModal(type) {
+        var modal = document.getElementById('posModal');
+        var title = document.getElementById('posModalTitle');
+        var body = document.getElementById('posModalBody');
+        if (type === 'prices') {
+            title.innerHTML = '<span style="color:#007aff;">💳</span><span>باقات وأسعار الكروت</span>';
+            body.innerHTML = '<div style="line-height:2; font-weight:700;">• كرت 100 ريال: 300 ميجا (24 ساعة)<br>• كرت 250 ريال: 1150 ميجا (50 ساعة)<br>• كرت 500 ريال: 2500 ميجا (10 أيام)</div>';
+        } else if (type === 'offers') {
+            title.innerHTML = '<span style="color:#007aff;">⭐</span><span>العروض الخاصة والخصومات</span>';
+            body.innerHTML = '<div style="line-height:2; font-weight:700;">🎁 سرعة مضاعفة مجانية خلال أوقات الفجر<br>🎉 رصيد إضافي 20% عند شراء باقات الشهر</div>';
+        } else if (type === 'live') {
+            title.innerHTML = '<span style="color:#007aff;">📺</span><span>البث المباشر والمباريات</span>';
+            body.innerHTML = '<div style="line-height:1.8; font-weight:700;">⚽ البث المباشر متاح لجميع مباريات الدوري والبطولات القارية مجاناً عبر سيرفر الشبكة الداخلي.</div>';
         } else {
-            document.getElementById("remain-bytes").innerText = "باقة غير محدودة";
+            title.innerHTML = '<span style="color:#007aff;">📍</span><span>نقاط البيع والتوزيع</span>';
+            body.innerHTML = '<div style="display:flex; align-items:center; justify-content:center; gap:8px;"><span style="color:#007aff; font-size:18px;">📍</span><span>جميع البقالات والمحلات المجاورة للشبكة</span></div>';
         }
-// اعتراض نموذج تغيير السرعة لمنع التوجيه لروابط خارجية مثل r.com
-document.getElementById('speed-change-form').addEventListener('submit', function(e) {
-    e.preventDefault(); // منع المتصفح من الانتقال للرابط الخارجي
-    
-    var logoutUrl = "$(link-logout)"; // رابط المايكروتك لإنهاء الاتصال بالسرعة القديمة
-    var speedValue = document.getElementById('speed-select').value;
-    
-    // تجهيز البيانات لإرسالها في الخلفية
-    var formData = new FormData();
-    formData.append('erase-cookie', 'true');
-    formData.append('dst', speedValue);
+        if (modal) modal.classList.add('active');
+    }
 
-    // إرسال طلب تغيير السرعة للسيرفر في الخلفية دون مغادرة الصفحة
-    fetch(logoutUrl, {
-        method: "POST",
-        body: formData
-    })
-    .then(function() {
-        // بعد نجاح العملية، نتوجه لصفحة تسجيل الدخول ليعاد ربطه تلقائياً بالسرعة الجديدة
-        window.location.href = "login.html"; 
-    })
-    .catch(function() {
-        // احتياطاً في حال حدوث أي خطأ في الشبكة أثناء قطع الاتصال
-        window.location.href = "login.html";
-    });
-});
+    function closePosModal() {
+        var modal = document.getElementById('posModal');
+        if (modal) modal.classList.remove('active');
+    }
 
+    // تعديل السرعة مع إعادة الاتصال
+    var speedForm = document.getElementById('speed-change-form');
+    if (speedForm) {
+        speedForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            var sel = document.getElementById('speed-select');
+            if (sel && sel.value) {
+                var formData = new FormData();
+                formData.append('dst', sel.value);
+                formData.append('erase-cookie', 'true');
+                fetch('logout.html', { method: 'POST', body: formData })
+                .then(function() {
+                    window.location.reload();
+                })
+                .catch(function() {
+                    window.location.reload();
+                });
+            }
+        });
+    }
     </script>
 </body>
 </html>

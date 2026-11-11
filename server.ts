@@ -202,6 +202,22 @@ function renderMikrotikTemplate(filePath: string, req: express.Request): string 
     }
     return el;
   };
+
+  // Smart day & night and color theme switcher
+  window.changeColor = function(color) {
+    if (color && (color.indexOf('0, 0, 0') !== -1 || color.indexOf('#000') !== -1)) {
+      if (document.body.classList.contains('theme-light')) {
+        document.body.classList.remove('theme-light');
+        document.body.style.background = '';
+      } else {
+        document.body.classList.add('theme-light');
+        document.body.style.background = 'linear-gradient(135deg, #e2e8f0 0%, #f1f5f9 50%, #e0f2fe 100%)';
+      }
+    } else {
+      document.body.classList.remove('theme-light');
+      document.body.style.background = color;
+    }
+  };
 })();
 </script>`;
 
